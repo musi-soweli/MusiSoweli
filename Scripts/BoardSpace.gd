@@ -23,18 +23,18 @@ func get_adjacent_spaces() -> Array[BoardSpace]:
 		spaces.append(board_state.spaces[row+1][column])
 	if column > 0:
 		spaces.append(board_state.spaces[row][column-1])
-	if column < len(board_state.spaces[row])+1:
+	if column < len(board_state.spaces[row])-1:
 		spaces.append(board_state.spaces[row][column+1])
 	return spaces
 func get_diagonal_spaces() -> Array[BoardSpace]:
 	var spaces : Array[BoardSpace] = []
 	if row > 0 and column > 0:
 		spaces.append(board_state.spaces[row-1][column-1])
-	if row > 0 and column < len(board_state.spaces[row])+1:
+	if row > 0 and column < len(board_state.spaces[row])-1:
 		spaces.append(board_state.spaces[row-1][column+1])
 	if row < len(board_state.spaces)-1 and column > 0:
 		spaces.append(board_state.spaces[row+1][column-1])
-	if row < len(board_state.spaces)-1 and column < len(board_state.spaces[row])+1:
+	if row < len(board_state.spaces)-1 and column < len(board_state.spaces[row])-1:
 		spaces.append(board_state.spaces[row+1][column+1])
 	return spaces
 func get_copy(_board_state) -> BoardSpace:

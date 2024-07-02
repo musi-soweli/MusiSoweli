@@ -18,4 +18,9 @@ func execute(board_state : BoardState) -> BoardState:
 	if carries:
 		new_state.spaces[new_position.row][new_position.column].pieces.append(new_state.spaces[old_position.row][old_position.column].pieces.pop_back())
 	new_state.spaces[new_position.row][new_position.column].pieces.append(top_piece)
+	for k in len(new_state.kasi_spaces):
+		if len(new_state.kasi_spaces[k].pieces) == 0:
+			if new_state.kili_amounts[k] > 0:
+				new_state.kasi_spaces[k].pieces.append(Kili.new(new_state.kasi_spaces[k]))
+				new_state.kili_amounts[k] -= 1
 	return new_state

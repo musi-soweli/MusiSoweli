@@ -17,10 +17,10 @@ func get_potential_moves() -> Array [Action]:
 		if len(pos.pieces) == 0 and not pos.type == SpaceType.TELO:
 			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1, false))
 		if len(pos.pieces) == 1 and (pos.pieces[0].owner == owner or pos.pieces[0].owner == 0):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1, false))
+			moves.append(MovementAction.new(position, pos, false, false))
 	for pos : BoardSpace in position.get_diagonal_spaces():
 		if len(pos.pieces) > 0 and (len(pos.pieces) > 1 or not pos.type == SpaceType.TELO) and  (pos.pieces[-1].owner != owner and pos.pieces[-1].owner > 0):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1, true))
+			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 1, true))
 	return moves
 func get_copy(board_space : BoardSpace) -> GamePiece:
 	return Pipi.new(board_space, owner)
