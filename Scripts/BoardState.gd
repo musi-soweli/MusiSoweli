@@ -2,13 +2,14 @@ class_name BoardState
 var spaces : Array
 var kasi_spaces : Array[BoardSpace] = []
 var kili_amounts : Array[int] = []
+var unused_pieces : Array = []
 @export var kili_amount : int = 4
 var orientation : int
 var turn : int
 static var default_types = [[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN], 
-	[SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN], 
+	[SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN], 
 	[SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN], 
 	[SpaceType.TELO, SpaceType.TELO, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.TELO, SpaceType.TELO, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO]]
@@ -35,6 +36,10 @@ static func get_starting_board_state() -> BoardState:
 			new_space.pieces = pieces
 			new_spaces[r].append(new_space)
 	state.spaces = new_spaces
+	var p : Array[GamePiece] = [Akesi.new(null, 1), Akesi.new(null, 1), Soweli.new(null, 1), Waso.new(null, 1), Waso.new(null, 1)]
+	state.unused_pieces.append(p)
+	var p2 : Array[GamePiece] = [Akesi.new(null, 2), Akesi.new(null, 2), Soweli.new(null, 2), Waso.new(null, 2), Waso.new(null, 2)]
+	state.unused_pieces.append(p2)
 	return state
 static func from(board_state : BoardState) -> BoardState:#TODO: There has to be a better way of doing this with deep copies this feel so inefficient
 	var new_board = BoardState.new(board_state.orientation, board_state.turn)

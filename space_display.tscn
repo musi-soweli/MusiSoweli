@@ -27,6 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_2oicd")
+expand_mode = 1
 
 [node name="TopPiece" type="TextureRect" parent="."]
 layout_mode = 1
@@ -38,6 +39,7 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_2oicd")
+expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="."]
 modulate = Color(1, 1, 1, 0.627451)
@@ -48,6 +50,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("4_d435d")
+ignore_texture_size = true
+stretch_mode = 0
 
 [connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

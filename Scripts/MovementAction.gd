@@ -16,7 +16,9 @@ func execute(board_state : BoardState) -> BoardState:
 	var top_piece = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
 	top_piece.position = new_state.spaces[new_position.row][new_position.column]
 	if carries:
-		new_state.spaces[new_position.row][new_position.column].pieces.append(new_state.spaces[old_position.row][old_position.column].pieces.pop_back())
+		var carried = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
+		new_state.spaces[new_position.row][new_position.column].pieces.append(carried)
+		carried.position = new_state.spaces[new_position.row][new_position.column]
 	new_state.spaces[new_position.row][new_position.column].pieces.append(top_piece)
 	for k in len(new_state.kasi_spaces):
 		if len(new_state.kasi_spaces[k].pieces) == 0:
