@@ -6,6 +6,7 @@ var unused_pieces : Array = []
 @export var kili_amount : int = 4
 var orientation : int
 var turn : int
+var num_players : int = 2
 static var default_types = [[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN], 
@@ -17,7 +18,12 @@ static var column_names = ["m", "n", "p", "t", "k", "s", "w", "l", "j"]
 func _init(_orientation : int, _turn : int):
 	orientation = _orientation
 	turn = _turn
-
+func progress_turn() -> BoardState:
+	orientation += 1
+	if orientation >= num_players:
+		orientation = 0
+		turn += 1
+	return self
 static func get_starting_board_state() -> BoardState:
 	var state = BoardState.new(0, 0)
 	var new_spaces = []

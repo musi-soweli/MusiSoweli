@@ -8,7 +8,7 @@ var aquatic : bool = false
 var textures : Array[Resource]
 func get_texture():
 	return textures[owner - 1]
-func get_potential_moves(carry : bool) -> Array [Action]:
+func get_potential_moves(current_turn : int, carry : bool) -> Array [Action]:
 	return []
 func get_copy(_board_space : BoardSpace) -> GamePiece:
 	return GamePiece.new()
@@ -19,11 +19,12 @@ func can_move_onto_space(space : BoardSpace) -> bool:
 		return false
 	if space.piece_num() == 1:
 		return space.pieces[0].owner == owner or space.pieces[0].owner == 0
-	else:
+	elif space.piece_num() == 0:
 		if space.type == SpaceType.TELO:
 			return aquatic
 		else:
 			return true
+	return false
 func can_capture_onto_space(space : BoardSpace) -> bool:
 	if space == null:
 		return false

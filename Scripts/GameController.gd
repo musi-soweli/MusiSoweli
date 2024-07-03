@@ -20,7 +20,7 @@ func on_pimeja_pieces_selected(pieces : Array[GamePiece]):
 	$BoardDisplay.moving = true
 	$BoardDisplay.update_grid(current_state)
 func on_board_display_move_selected(move : Action):
-	current_state = move.execute(current_state)
+	current_state = move.execute(current_state).progress_turn()
 	$BoardDisplay.update_grid(current_state)
 func on_board_display_promotion(move : PromotionAction):
 	$BoardDisplay.moving = false
@@ -28,6 +28,6 @@ func on_board_display_promotion(move : PromotionAction):
 	$PieceSelectionDisplay.display_pieces(current_state.unused_pieces[move.owner-1], 1, ht, Callable(self, "on_promotion_confirmed").bind(move))
 func on_promotion_confirmed(pieces : Array[GamePiece], move : PromotionAction):
 	move.new_piece = pieces[0]
-	current_state = move.execute(current_state)
+	current_state = move.execute(current_state).progress_turn()
 	$BoardDisplay.moving = true
 	$BoardDisplay.update_grid(current_state)

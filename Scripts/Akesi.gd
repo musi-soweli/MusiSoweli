@@ -12,8 +12,10 @@ func get_name():
 	return name + " " + COLORS[owner]
 func get_description():
 	return "frog piece. moves and captures one space diagonally and two spaces orthogonally"
-func get_potential_moves(carry : bool) -> Array [Action]:
+func get_potential_moves(current_turn : int, carry : bool) -> Array [Action]:
 	var moves : Array [Action] = []
+	if current_turn != owner:
+		return moves
 	for pos : BoardSpace in position.get_adjacent_spaces(2):
 		if can_move_onto_space(pos):
 			if carry:

@@ -12,21 +12,23 @@ func get_name():
 	return name + " " + COLORS[owner]
 func get_description():
 	return "fish piece. moves and captures one space in any direction"
-func get_potential_moves(carry : bool) -> Array [Action]:
+func get_potential_moves(current_turn : int, carry : bool) -> Array [Action]:
 	var moves : Array [Action] = []
+	if current_turn != owner:
+		return moves
 	for pos : BoardSpace in position.get_adjacent_spaces(1):
-		if can_move_onto_space(pos):
-			if carry:
-				if len(position.pieces) > 1 and len(pos.pieces) == 0:
-					moves.append(MovementAction.new(position, pos, true, false))
-			else:
-				moves.append(MovementAction.new(position, pos, false, false))
 		if can_capture_onto_space(pos):
 			if carry:
 				if len(position.pieces) > 1 and len(pos.pieces) == 1:
 					moves.append(MovementAction.new(position, pos, true, true))
 			else:
 				moves.append(MovementAction.new(position, pos, false, true))
+		elif can_move_onto_space(pos):
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 0:
+					moves.append(MovementAction.new(position, pos, true, false))
+			else:
+				moves.append(MovementAction.new(position, pos, false, false))
 	for pos : BoardSpace in position.get_diagonal_spaces(1):
 		if can_capture_onto_space(pos):
 			if carry:
@@ -34,7 +36,7 @@ func get_potential_moves(carry : bool) -> Array [Action]:
 					moves.append(MovementAction.new(position, pos, true, true))
 			else:
 				moves.append(MovementAction.new(position, pos, false, true))
-		if can_move_onto_space(pos):
+		elif can_move_onto_space(pos):
 			if carry:
 				if len(position.pieces) > 1 and len(pos.pieces) == 0:
 					moves.append(MovementAction.new(position, pos, true, false))
