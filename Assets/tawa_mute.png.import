@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tc1i31g5kd1b"
-path="res://.godot/imported/double_capture.png-d2deff6f947bc9f892f995e0e8ac5f4f.ctex"
+uid="uid://dnu7i3wgm8bqi"
+path="res://.godot/imported/tawa_mute.png-4e24ef40af5a201a82faa25fd82699bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/double_capture.png"
-dest_files=["res://.godot/imported/double_capture.png-d2deff6f947bc9f892f995e0e8ac5f4f.ctex"]
+source_file="res://Assets/tawa_mute.png"
+dest_files=["res://.godot/imported/tawa_mute.png-4e24ef40af5a201a82faa25fd82699bf.ctex"]
 
 [params]
 

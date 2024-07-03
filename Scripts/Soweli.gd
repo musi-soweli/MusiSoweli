@@ -11,7 +11,7 @@ func get_name():
 	return name + " " + COLORS[owner]
 func get_description():
 	return "bull piece. moves and captures in a straight line. cannot move over other pieces"
-func get_potential_moves() -> Array [Action]:
+func get_potential_moves(carry : bool) -> Array [Action]:
 	var moves : Array [Action] = []
 	var spaces : Array [BoardSpace] = position.get_adjacent_spaces()
 	var check_spaces : Array [BoardSpace] = spaces.duplicate()
@@ -28,9 +28,17 @@ func get_potential_moves() -> Array [Action]:
 				break
 	for pos in check_spaces:
 		if can_move_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 0, false))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 0:
+					moves.append(MovementAction.new(position, pos, true, false))
+			else:
+				moves.append(MovementAction.new(position, pos, false, false))
 		if can_capture_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 1, true))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 1:
+					moves.append(MovementAction.new(position, pos, true, true))
+			else:
+				moves.append(MovementAction.new(position, pos, false, true))
 	return moves
 func get_copy(board_space : BoardSpace) -> GamePiece:
 	return Soweli.new(board_space, owner)

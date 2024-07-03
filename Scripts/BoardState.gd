@@ -53,4 +53,9 @@ static func from(board_state : BoardState) -> BoardState:#TODO: There has to be 
 		var k_space = board_state.kasi_spaces[k]
 		new_board.kasi_spaces.append(new_board.spaces[k_space.row][k_space.column])
 	new_board.kili_amount = board_state.kili_amount
+	for i in range(len(board_state.unused_pieces)):
+		var n : Array[GamePiece] = []
+		new_board.unused_pieces.append(n)
+		for j in range(len(board_state.unused_pieces[i])):
+			new_board.unused_pieces[i].append(board_state.unused_pieces[i][j].get_copy(null))
 	return new_board

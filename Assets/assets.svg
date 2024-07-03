@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="0.48567463"
-     inkscape:cx="834.92112"
-     inkscape:cy="-93.68412"
+     inkscape:zoom="1.3736953"
+     inkscape:cx="1695.0629"
+     inkscape:cy="95.727197"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="1272"
@@ -182,7 +182,8 @@
        height="100"
        id="page16"
        margin="0"
-       bleed="0" />
+       bleed="0"
+       inkscape:label="tawa" />
     <inkscape:page
        x="1540"
        y="0"
@@ -190,7 +191,8 @@
        height="100"
        id="page17"
        margin="0"
-       bleed="0" />
+       bleed="0"
+       inkscape:label="tawa_mute" />
     <inkscape:page
        x="1650"
        y="0"
@@ -198,7 +200,8 @@
        height="100"
        id="page18"
        margin="0"
-       bleed="0" />
+       bleed="0"
+       inkscape:label="utala" />
     <inkscape:page
        x="1760"
        y="0"
@@ -206,7 +209,8 @@
        height="100"
        id="page19"
        margin="0"
-       bleed="0" />
+       bleed="0"
+       inkscape:label="utala_mute" />
     <inkscape:page
        x="1870"
        y="0"
@@ -214,7 +218,11 @@
        height="100"
        id="page20"
        margin="0"
-       bleed="0" />
+       bleed="0"
+       inkscape:export-filename=".\esun.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       inkscape:label="esun" />
     <inkscape:page
        x="1980"
        y="0"
@@ -1127,5 +1135,60 @@
            ry="0.22641768" />
       </g>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:74.6667px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;text-anchor:middle;stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="1478.3199"
+       y="81.098679"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         x="1478.3199"
+         y="81.098679"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.6667px;font-family:'linja lipamanka';-inkscape-font-specification:'linja lipamanka';stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers">tawa</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:74.6667px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;text-anchor:middle;stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="1699.8879"
+       y="78.149345"
+       id="text1-58"><tspan
+         sodipodi:role="line"
+         id="tspan1-7"
+         x="1699.8879"
+         y="78.149345"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.6667px;font-family:'linja lipamanka';-inkscape-font-specification:'linja lipamanka';stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers">utala</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:74.6667px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;text-anchor:middle;stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="1920"
+       y="77.514679"
+       id="text1-58-4"><tspan
+         sodipodi:role="line"
+         id="tspan1-7-36"
+         x="1920"
+         y="77.514679"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.6667px;font-family:'linja lipamanka';-inkscape-font-specification:'linja lipamanka';stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers">esun</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:74.6667px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;text-anchor:middle;stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="1809.6267"
+       y="78.672012"
+       id="text1-58-7"><tspan
+         sodipodi:role="line"
+         id="tspan1-7-3"
+         x="1809.6267"
+         y="78.672012"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.6667px;font-family:'linja lipamanka';-inkscape-font-specification:'linja lipamanka';stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers">utala+mute</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:74.6667px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;text-anchor:middle;stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers"
+       x="1589.8879"
+       y="79.008011"
+       id="text1-5"><tspan
+         sodipodi:role="line"
+         id="tspan1-4"
+         x="1589.8879"
+         y="79.008011"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.6667px;font-family:'linja lipamanka';-inkscape-font-specification:'linja lipamanka';stroke:#f9f9f9;stroke-width:3;stroke-dasharray:none;paint-order:stroke fill markers">tawa+mute</tspan></text>
   </g>
 </svg>

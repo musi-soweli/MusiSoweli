@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cev7eats8u5i4"
-path="res://.godot/imported/double_movement.png-1e01334922e33c5593db92df67a29cf2.ctex"
+uid="uid://dh2vxs40amfr4"
+path="res://.godot/imported/utala.png-3f204e1ddfc5531c64f2d113032bb8d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/double_movement.png"
-dest_files=["res://.godot/imported/double_movement.png-1e01334922e33c5593db92df67a29cf2.ctex"]
+source_file="res://Assets/utala.png"
+dest_files=["res://.godot/imported/utala.png-3f204e1ddfc5531c64f2d113032bb8d4.ctex"]
 
 [params]
 

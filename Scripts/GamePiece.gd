@@ -8,7 +8,7 @@ var aquatic : bool = false
 var textures : Array[Resource]
 func get_texture():
 	return textures[owner - 1]
-func get_potential_moves() -> Array [Action]:
+func get_potential_moves(carry : bool) -> Array [Action]:
 	return []
 func get_copy(_board_space : BoardSpace) -> GamePiece:
 	return GamePiece.new()

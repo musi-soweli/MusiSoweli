@@ -236,5 +236,6 @@ disabled = true
 text = "accept"
 
 [connection signal="move_selected" from="BoardDisplay" to="." method="on_board_display_move_selected"]
+[connection signal="promotion" from="BoardDisplay" to="." method="on_board_display_promotion"]
 [connection signal="space_hovered" from="PieceSelectionDisplay" to="SpaceInfoDisplay" method="display_space"]
 [connection signal="pressed" from="PieceSelectionDisplay/Button" to="PieceSelectionDisplay" method="on_button_pressed"]

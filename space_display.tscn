@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/SpaceDisplay.gd" id="1_fws8f"]
 [ext_resource type="Texture2D" uid="uid://q7vtly8h557q" path="res://Assets/empty_light.png" id="1_g1mui"]
 [ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://Assets/kili.png" id="3_2oicd"]
-[ext_resource type="Texture2D" uid="uid://cpol8qxcei00" path="res://Assets/movement.png" id="4_d435d"]
+[ext_resource type="Texture2D" uid="uid://cvkhhxrfw277c" path="res://Assets/empty.png" id="4_xhea7"]
 
 [node name="SpaceDisplay" type="TextureRect"]
 anchors_preset = 15
@@ -49,7 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("4_d435d")
+texture_normal = ExtResource("4_xhea7")
 ignore_texture_size = true
 stretch_mode = 0
 

@@ -30,39 +30,41 @@ func display_pieces(pieces : Array[GamePiece], _selection_num : int, types : Arr
 
 func on_space_hovered(space : BoardSpace) -> void:
 	emit_signal("space_hovered", space)
-func on_piece_selected(piece : GamePiece) -> void:
-	spaces[piece.position.row*$GridContainer.columns + piece.position.column].pieces.pop_back() #take the piece off the space
-	if piece.position.row == 0:
+func on_piece_selected(space : BoardSpace) -> void: #take the piece off the space
+	if space.row == 0:
 		for i in range($GridContainer.columns):
 			if spaces[$GridContainer.columns + i].piece_num() == 0:
+				var piece = spaces[space.row*$GridContainer.columns + space.column].pieces.pop_back()
 				spaces[$GridContainer.columns + i].pieces.append(piece)
 				piece.position = spaces[$GridContainer.columns + i]
 				var flipped = piece.get_flipped()
 				spaces[$GridContainer.columns*2 + i].pieces.append(flipped)#TODO: Check if this is memory safe or whatever
 				flipped.position = spaces[$GridContainer.columns*2 + i]
 				break
-	elif piece.position.row == 1:
-		spaces[2*$GridContainer.columns + piece.position.column].pieces.pop_back()
+	elif space.row == 1:
 		for i in range(selection_num):
 			if spaces[i].piece_num() == 0:
+				var piece = spaces[space.row*$GridContainer.columns + space.column].pieces.pop_back()
+				spaces[2*$GridContainer.columns + space.column].pieces.pop_back()
 				spaces[i].pieces.append(piece)
 				piece.position = spaces[i]
 				break
-	elif piece.position.row == 2:
-		spaces[$GridContainer.columns + piece.position.column].pieces.pop_back()
+	elif space.row == 2:
 		for i in range(selection_num):
 			if spaces[i].piece_num() == 0:
+				var piece = spaces[space.row*$GridContainer.columns + space.column].pieces.pop_back()
+				spaces[$GridContainer.columns + space.column].pieces.pop_back()
 				spaces[i].pieces.append(piece)
 				piece.position = spaces[i]
 				break
 	for i in range($GridContainer.get_child_count()):
 		$GridContainer.get_child(i).set_space(spaces[i])
-	var ready = false
+	var redy = false
 	for i in range(selection_num):
 		if spaces[i].piece_num() == 0:
-			ready = true
+			redy = true
 			break
-	$Button.disabled = ready
+	$Button.disabled = redy
 func on_button_pressed():
 	for child in $GridContainer.get_children():
 		child.queue_free()

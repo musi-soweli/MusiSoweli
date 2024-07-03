@@ -1,13 +1,13 @@
 extends TextureRect
 signal space_hovered(space : BoardSpace)
-signal piece_selected(piece : GamePiece)
+signal piece_selected(space : BoardSpace)
 signal move_selected(move : Action)
 signal empty_selected()
 const EMPTY : Texture2D = preload("res://Assets/empty.png")
-const MOVE : Texture2D = preload("res://Assets/movement.png")
-const DOUBLE_MOVE : Texture2D = preload("res://Assets/double_movement.png")
-const CAPTURE : Texture2D = preload("res://Assets/capture.png")
-const DOUBLE_CAPTURE : Texture2D = preload("res://Assets/double_capture.png")
+const MOVE : Texture2D = preload("res://Assets/tawa.png")
+const DOUBLE_MOVE : Texture2D = preload("res://Assets/tawa_mute.png")
+const CAPTURE : Texture2D = preload("res://Assets/utala.png")
+const DOUBLE_CAPTURE : Texture2D = preload("res://Assets/utala_mute.png")
 var space : BoardSpace
 var move : Action
 var moveable : bool = false
@@ -55,6 +55,6 @@ func _on_button_pressed():
 		emit_signal("move_selected", move)
 	elif selectable:
 		if len(space.pieces) > 0:
-			emit_signal("piece_selected", space.pieces[-1])
+			emit_signal("piece_selected", space)
 		else:
 			emit_signal("empty_selected")

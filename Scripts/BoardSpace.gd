@@ -48,3 +48,14 @@ func get_copy(_board_state) -> BoardSpace:
 	return new_space
 func piece_num() -> int:
 	return len(pieces)
+func get_potential_moves() -> Array[Array]:
+	var moves : Array[Array] = []
+	var noCarry = pieces[-1].get_potential_moves(false)
+	if len(noCarry) > 0:
+		moves.append(noCarry)
+	var carry = pieces[-1].get_potential_moves(true)
+	if len(carry) > 0:
+		moves.append(carry)
+	if len(pieces) > 1 and pieces[0] is Kili and type == SpaceType.TOMO_LOJE or  type == SpaceType.TOMO_PIMEJA:
+		moves.append(pieces[0].get_potential_moves(false))
+	return moves

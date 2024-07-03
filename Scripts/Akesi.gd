@@ -12,18 +12,34 @@ func get_name():
 	return name + " " + COLORS[owner]
 func get_description():
 	return "frog piece. moves and captures one space diagonally and two spaces orthogonally"
-func get_potential_moves() -> Array [Action]:
+func get_potential_moves(carry : bool) -> Array [Action]:
 	var moves : Array [Action] = []
 	for pos : BoardSpace in position.get_adjacent_spaces(2):
 		if can_move_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 0, false))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 0:
+					moves.append(MovementAction.new(position, pos, true, false))
+			else:
+				moves.append(MovementAction.new(position, pos, false, false))
 		if can_capture_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 1, true))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 1:
+					moves.append(MovementAction.new(position, pos, true, true))
+			else:
+				moves.append(MovementAction.new(position, pos, false, true))
 	for pos : BoardSpace in position.get_diagonal_spaces(1):
 		if can_capture_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 1, true))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 1:
+					moves.append(MovementAction.new(position, pos, true, true))
+			else:
+				moves.append(MovementAction.new(position, pos, false, true))
 		if can_move_onto_space(pos):
-			moves.append(MovementAction.new(position, pos, len(position.pieces) > 1 and len(pos.pieces) == 0, false))
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 0:
+					moves.append(MovementAction.new(position, pos, true, false))
+			else:
+				moves.append(MovementAction.new(position, pos, false, false))
 	return moves
 func get_copy(board_space : BoardSpace) -> GamePiece:
 	return Akesi.new(board_space, owner)
