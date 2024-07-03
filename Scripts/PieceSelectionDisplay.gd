@@ -1,13 +1,16 @@
 extends Panel
 signal space_hovered(space : BoardSpace)
+signal cancelled()
 
 const SPACE = preload("res://space_display.tscn")
 var spaces : Array[BoardSpace] = []
 var selection_num : int = 5
 var on_selected : Callable
 
-func display_pieces(pieces : Array[GamePiece], _selection_num : int, types : Array[SpaceType], _on_selected : Callable) -> void:
+func display_pieces(pieces : Array[GamePiece], _selection_num : int, types : Array[SpaceType], _on_selected : Callable, text : String = "Select Pieces", cancellable : bool = false) -> void:
 	show()
+	$Cancel.visible = cancellable
+	$Label.text = text
 	selection_num = _selection_num
 	on_selected = _on_selected
 	$GridContainer.columns = len(pieces)
@@ -73,3 +76,9 @@ func on_button_pressed():
 	for i in range(selection_num):
 		pieces.append(spaces[i].pieces[0])
 	on_selected.bind(pieces).call()
+func on_cancel_pressed():
+	for child in $GridContainer.get_children():
+		child.queue_free()
+	hide()
+	var pieces : Array[GamePiece] = []
+	emit_signal("cancelled")

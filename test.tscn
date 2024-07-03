@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://kamy5p2kqmho"]
+[gd_scene load_steps=9 format=3 uid="uid://kamy5p2kqmho"]
 
 [ext_resource type="Script" path="res://Scripts/BoardDisplay.gd" id="1_hkdfn"]
 [ext_resource type="Script" path="res://Scripts/GameController.gd" id="1_ts2xv"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://Assets/kili.png" id="4_obh3j"]
 [ext_resource type="Texture2D" uid="uid://cjy4lyy37wcuh" path="res://Assets/pipi_loje.png" id="5_msevv"]
 [ext_resource type="Script" path="res://Scripts/PieceSelectionDisplay.gd" id="6_6rbbu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihssm"]
+bg_color = Color(0.0431373, 0.372549, 0.215686, 1)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -21,7 +24,6 @@ script = ExtResource("1_ts2xv")
 layout_mode = 1
 offset_right = 648.0
 offset_bottom = 648.0
-pivot_offset = Vector2(324, 324)
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 9
@@ -197,12 +199,12 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="PieceSelectionDisplay" type="Panel" parent="."]
-visible = false
 layout_mode = 2
 offset_left = 159.0
-offset_top = 164.0
+offset_top = 115.0
 offset_right = 679.0
 offset_bottom = 526.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ihssm")
 script = ExtResource("6_6rbbu")
 
 [node name="GridContainer" type="GridContainer" parent="PieceSelectionDisplay"]
@@ -211,9 +213,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -250.0
-offset_top = 10.0
+offset_top = 60.0
 offset_right = 250.0
-offset_bottom = 310.0
+offset_bottom = 360.0
 grow_horizontal = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
@@ -235,7 +237,36 @@ grow_vertical = 0
 disabled = true
 text = "accept"
 
+[node name="Cancel" type="Button" parent="PieceSelectionDisplay"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -85.0
+offset_top = -42.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "cancel"
+
+[node name="Label" type="Label" parent="PieceSelectionDisplay"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.5
+offset_top = 20.0
+offset_right = 45.5
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "Select Piece"
+
 [connection signal="move_selected" from="BoardDisplay" to="." method="on_board_display_move_selected"]
 [connection signal="promotion" from="BoardDisplay" to="." method="on_board_display_promotion"]
+[connection signal="cancelled" from="PieceSelectionDisplay" to="." method="on_piece_selection_display_cancelled"]
 [connection signal="space_hovered" from="PieceSelectionDisplay" to="SpaceInfoDisplay" method="display_space"]
 [connection signal="pressed" from="PieceSelectionDisplay/Button" to="PieceSelectionDisplay" method="on_button_pressed"]
+[connection signal="pressed" from="PieceSelectionDisplay/Cancel" to="PieceSelectionDisplay" method="on_cancel_pressed"]
