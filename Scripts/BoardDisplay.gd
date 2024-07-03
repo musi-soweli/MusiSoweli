@@ -7,11 +7,16 @@ const SPACE_DISPLAY := preload("res://space_display.tscn")
 #var current_state : BoardState
 var displaying_moves : bool = false
 var moves_displayed : int = 0
+var pov : int
+var local : bool
 var potential_moves : Array[Array] = []
 var selected_space : BoardSpace
 var moving = false
 
 func populate_grid(board_state : BoardState):
+	if local:
+		pov = board_state.orientation
+	moving = board_state.orientation == pov
 	for child : Node in get_children():
 		child.queue_free()
 	for r : int in range(len(board_state.spaces)):
@@ -25,12 +30,15 @@ func populate_grid(board_state : BoardState):
 			add_child(display)
 	size.x = (size.y/7.0)*9.0
 func update_grid(board_state : BoardState):
+	if local:
+		pov = board_state.orientation
+	moving = board_state.orientation == pov
 	pivot_offset = Vector2(size.x*0.5, size.y*0.5)
-	rotation_degrees = 0 if board_state.orientation == 0 else 180
+	rotation_degrees = 180 if pov == 1 else 0
 	for i : int in range(get_child_count()):
 		get_child(i).set_space(board_state.spaces[i/9][i%9])
 		get_child(i).pivot_offset = Vector2(get_child(i).size.x*0.5, get_child(i).size.y*0.5)
-		get_child(i).rotation_degrees = 0 if board_state.orientation == 0 else 180
+		get_child(i).rotation_degrees = 180 if pov == 1 else 0
 
 #func _ready():
 	#current_state = BoardState.get_starting_board_state()

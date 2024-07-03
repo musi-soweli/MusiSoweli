@@ -28,26 +28,43 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 9
 script = ExtResource("1_hkdfn")
-SPACE_INFO_DISPLAY = NodePath("../SpaceInfoDisplay")
+SPACE_INFO_DISPLAY = NodePath("../InfoPanel/InfoDisplay")
 PIECE_SELECTION_DISPLAY = NodePath("../PieceSelectionDisplay")
 
-[node name="SpaceInfoDisplay" type="VBoxContainer" parent="."]
+[node name="InfoPanel" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 11
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -299.0
+anchor_bottom = 0.5
+offset_left = -324.0
+offset_top = -324.0
 offset_right = 1.0
+offset_bottom = 324.0
 grow_horizontal = 0
 grow_vertical = 2
+
+[node name="InfoDisplay" type="VBoxContainer" parent="InfoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
 script = ExtResource("2_7bigf")
 
-[node name="SpaceInfo" type="Control" parent="SpaceInfoDisplay"]
-custom_minimum_size = Vector2(0, 200)
+[node name="SpaceInfo" type="Control" parent="InfoPanel/InfoDisplay"]
+visible = false
+custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
 
-[node name="Space" type="TextureRect" parent="SpaceInfoDisplay/SpaceInfo"]
+[node name="Space" type="TextureRect" parent="InfoPanel/InfoDisplay/SpaceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -61,7 +78,7 @@ texture = ExtResource("3_avmrm")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="BottomPiece" type="TextureRect" parent="SpaceInfoDisplay/SpaceInfo/Space"]
+[node name="BottomPiece" type="TextureRect" parent="InfoPanel/InfoDisplay/SpaceInfo/Space"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -77,7 +94,7 @@ grow_vertical = 2
 texture = ExtResource("4_obh3j")
 stretch_mode = 5
 
-[node name="TopPiece" type="TextureRect" parent="SpaceInfoDisplay/SpaceInfo/Space"]
+[node name="TopPiece" type="TextureRect" parent="InfoPanel/InfoDisplay/SpaceInfo/Space"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -93,35 +110,35 @@ grow_vertical = 2
 texture = ExtResource("5_msevv")
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="SpaceInfoDisplay/SpaceInfo"]
+[node name="Title" type="Label" parent="InfoPanel/InfoDisplay/SpaceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -39.0
-offset_top = 130.0
+offset_top = 120.0
 offset_right = 39.0
-offset_bottom = 153.0
+offset_bottom = 143.0
 grow_horizontal = 2
 text = "m5 (open)"
 horizontal_alignment = 1
 
-[node name="Info" type="Label" parent="SpaceInfoDisplay/SpaceInfo"]
+[node name="Info" type="Label" parent="InfoPanel/InfoDisplay/SpaceInfo"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 168.0
-offset_bottom = 219.0
+offset_top = 143.0
+offset_bottom = 194.0
 grow_horizontal = 2
 text = "lorem ipsum dolor sit amet"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="TopPieceInfo" type="Control" parent="SpaceInfoDisplay"]
+[node name="TopPieceInfo" type="Control" parent="InfoPanel/InfoDisplay"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="TopPiece" type="TextureRect" parent="SpaceInfoDisplay/TopPieceInfo"]
+[node name="TopPiece" type="TextureRect" parent="InfoPanel/InfoDisplay/TopPieceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -133,7 +150,7 @@ grow_horizontal = 2
 texture = ExtResource("5_msevv")
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="SpaceInfoDisplay/TopPieceInfo"]
+[node name="Title" type="Label" parent="InfoPanel/InfoDisplay/TopPieceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -146,7 +163,7 @@ grow_horizontal = 2
 text = "pipi"
 horizontal_alignment = 1
 
-[node name="Info" type="Label" parent="SpaceInfoDisplay/TopPieceInfo"]
+[node name="Info" type="Label" parent="InfoPanel/InfoDisplay/TopPieceInfo"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -157,11 +174,11 @@ text = "moves one space orthogonally and captures one space diagonally"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="BottomPieceInfo" type="Control" parent="SpaceInfoDisplay"]
+[node name="BottomPieceInfo" type="Control" parent="InfoPanel/InfoDisplay"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="BottomPiece" type="TextureRect" parent="SpaceInfoDisplay/BottomPieceInfo"]
+[node name="BottomPiece" type="TextureRect" parent="InfoPanel/InfoDisplay/BottomPieceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -174,7 +191,7 @@ grow_horizontal = 2
 texture = ExtResource("4_obh3j")
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="SpaceInfoDisplay/BottomPieceInfo"]
+[node name="Title" type="Label" parent="InfoPanel/InfoDisplay/BottomPieceInfo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -187,7 +204,7 @@ grow_horizontal = 2
 text = "kili"
 horizontal_alignment = 1
 
-[node name="Info" type="Label" parent="SpaceInfoDisplay/BottomPieceInfo"]
+[node name="Info" type="Label" parent="InfoPanel/InfoDisplay/BottomPieceInfo"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -197,6 +214,32 @@ grow_horizontal = 2
 text = "lorem ipsum dolor sit amet"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="GameInfo" type="Control" parent="InfoPanel/InfoDisplay"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InfoPanel/InfoDisplay/GameInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "piece selection phase"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PassButton" type="Button" parent="InfoPanel/InfoDisplay/GameInfo"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "pass"
 
 [node name="PieceSelectionDisplay" type="Panel" parent="."]
 layout_mode = 2
@@ -266,7 +309,8 @@ text = "Select Piece"
 
 [connection signal="move_selected" from="BoardDisplay" to="." method="on_board_display_move_selected"]
 [connection signal="promotion" from="BoardDisplay" to="." method="on_board_display_promotion"]
+[connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/PassButton" to="." method="on_pass_button_pressed"]
 [connection signal="cancelled" from="PieceSelectionDisplay" to="." method="on_piece_selection_display_cancelled"]
-[connection signal="space_hovered" from="PieceSelectionDisplay" to="SpaceInfoDisplay" method="display_space"]
+[connection signal="space_hovered" from="PieceSelectionDisplay" to="InfoPanel/InfoDisplay" method="display_space"]
 [connection signal="pressed" from="PieceSelectionDisplay/Button" to="PieceSelectionDisplay" method="on_button_pressed"]
 [connection signal="pressed" from="PieceSelectionDisplay/Cancel" to="PieceSelectionDisplay" method="on_cancel_pressed"]

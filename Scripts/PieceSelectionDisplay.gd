@@ -17,7 +17,7 @@ func display_pieces(pieces : Array[GamePiece], _selection_num : int, types : Arr
 	spaces = []
 	for i in range(len(pieces)*3):
 		var space_display = SPACE.instantiate()
-		spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < selection_num else SpaceType.OPEN, i%2 == 0, i/len(pieces), i%len(pieces)))
+		spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < selection_num else SpaceType.EMPTY, i%2 == 0, i/len(pieces), i%len(pieces)))
 		if i >= len(pieces)*2:
 			var p : Array[GamePiece] = [pieces[i-len(pieces)*2].get_flipped()]
 			p[0].position = spaces[i]

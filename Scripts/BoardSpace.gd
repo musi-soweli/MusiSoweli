@@ -50,6 +50,8 @@ func piece_num() -> int:
 	return len(pieces)
 func get_potential_moves() -> Array[Array]:
 	var moves : Array[Array] = []
+	if board_state.complete:
+		return moves
 	var noCarry = pieces[-1].get_potential_moves(board_state.orientation+1, false)
 	if len(noCarry) > 0:
 		moves.append(noCarry)

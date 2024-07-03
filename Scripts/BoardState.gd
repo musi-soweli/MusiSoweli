@@ -3,9 +3,11 @@ var spaces : Array
 var kasi_spaces : Array[BoardSpace] = []
 var kili_amounts : Array[int] = []
 var unused_pieces : Array = []
-@export var kili_amount : int = 4
+@export var kili_amount : int = 1
+var complete : bool = false
 var orientation : int
 var turn : int
+var passes : int = 0
 var num_players : int = 2
 static var default_types = [[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
 	[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO], 
@@ -24,6 +26,30 @@ func progress_turn() -> BoardState:
 		orientation = 0
 		turn += 1
 	return self
+func check_complete() -> BoardState:
+	if passes > num_players:
+		complete = true
+		return self
+	for k in kili_amounts:
+		if k > 0:
+			return self
+	for kasi_space in kasi_spaces:
+		if kasi_space.piece_num() > 0 and kasi_space.pieces[0] is Kili:
+			return self
+	complete = true
+	return self
+func get_scores() -> Array[int]:
+	var scores : Array[int] = [0, 0]
+	for r in range(len(spaces)):
+		for c in range(len(spaces[r])):
+			if spaces[r][c].piece_num() > 0 and spaces[r][c].pieces[0] is Kili:
+				if spaces[r][c].type == SpaceType.LOJE or spaces[r][c].type == SpaceType.TOMO_LOJE:
+					scores[0] += 1
+				elif spaces[r][c].type == SpaceType.PIMEJA or spaces[r][c].type == SpaceType.TOMO_PIMEJA:
+					scores[1] += 1
+				elif spaces[r][c].piece_num() > 1:
+					scores[spaces[r][c].pieces[-1].owner-1] += 1
+	return scores
 static func get_starting_board_state() -> BoardState:
 	var state = BoardState.new(0, 0)
 	var new_spaces = []
@@ -64,4 +90,5 @@ static func from(board_state : BoardState) -> BoardState:#TODO: There has to be 
 		new_board.unused_pieces.append(n)
 		for j in range(len(board_state.unused_pieces[i])):
 			new_board.unused_pieces[i].append(board_state.unused_pieces[i][j].get_copy(null))
+	new_board.complete = board_state.complete
 	return new_board
