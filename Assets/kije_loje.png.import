@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dthdxthxe4hd0"
-path="res://.godot/imported/kije_loje.png-a29ffef9aa06efe4aa10e1e661414a14.ctex"
+path="res://.godot/imported/kije_loje.png-febb6499df4dda3d7b3dbaa5944b376a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/kije_loje.png"
-dest_files=["res://.godot/imported/kije_loje.png-a29ffef9aa06efe4aa10e1e661414a14.ctex"]
+source_file="res://assets/kije_loje.png"
+dest_files=["res://.godot/imported/kije_loje.png-febb6499df4dda3d7b3dbaa5944b376a.ctex"]
 
 [params]
 

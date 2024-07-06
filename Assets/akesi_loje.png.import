@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://by63lsaor0r8v"
-path="res://.godot/imported/akesi_loje.png-d8a674b433cb80606956d8a6662b2765.ctex"
+path="res://.godot/imported/akesi_loje.png-0b0578a48018cf5a08e5dbcf75907d9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/akesi_loje.png"
-dest_files=["res://.godot/imported/akesi_loje.png-d8a674b433cb80606956d8a6662b2765.ctex"]
+source_file="res://assets/akesi_loje.png"
+dest_files=["res://.godot/imported/akesi_loje.png-0b0578a48018cf5a08e5dbcf75907d9f.ctex"]
 
 [params]
 

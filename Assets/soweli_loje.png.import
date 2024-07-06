@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://sx583tccxh7y"
-path="res://.godot/imported/soweli_loje.png-86f5bf2fac3e194c7a9eb4caf62be8ff.ctex"
+path="res://.godot/imported/soweli_loje.png-f5d71747f6fd51f02fadb8de97f67347.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/soweli_loje.png"
-dest_files=["res://.godot/imported/soweli_loje.png-86f5bf2fac3e194c7a9eb4caf62be8ff.ctex"]
+source_file="res://assets/soweli_loje.png"
+dest_files=["res://.godot/imported/soweli_loje.png-f5d71747f6fd51f02fadb8de97f67347.ctex"]
 
 [params]
 

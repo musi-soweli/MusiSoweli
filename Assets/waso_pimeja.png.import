@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://16ghy8pche3g"
-path="res://.godot/imported/waso_pimeja.png-cfabf5d2a74269213bee4c8114208f85.ctex"
+path="res://.godot/imported/waso_pimeja.png-0a99b595cf8a3fbdde6ababcb124e51f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/waso_pimeja.png"
-dest_files=["res://.godot/imported/waso_pimeja.png-cfabf5d2a74269213bee4c8114208f85.ctex"]
+source_file="res://assets/waso_pimeja.png"
+dest_files=["res://.godot/imported/waso_pimeja.png-0a99b595cf8a3fbdde6ababcb124e51f.ctex"]
 
 [params]
 

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://b82kf67k7ftr"]
 
-[ext_resource type="Script" path="res://Scripts/SpaceDisplay.gd" id="1_fws8f"]
-[ext_resource type="Texture2D" uid="uid://q7vtly8h557q" path="res://Assets/empty_light.png" id="1_g1mui"]
-[ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://Assets/kili.png" id="3_2oicd"]
-[ext_resource type="Texture2D" uid="uid://cvkhhxrfw277c" path="res://Assets/empty.png" id="4_xhea7"]
+[ext_resource type="Script" path="res://scripts/space_display.gd" id="1_fws8f"]
+[ext_resource type="Texture2D" uid="uid://q7vtly8h557q" path="res://assets/empty_light.png" id="1_g1mui"]
+[ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://assets/kili.png" id="3_2oicd"]
+[ext_resource type="Texture2D" uid="uid://cvkhhxrfw277c" path="res://assets/empty.png" id="4_xhea7"]
 
 [node name="SpaceDisplay" type="TextureRect"]
 anchors_preset = 15

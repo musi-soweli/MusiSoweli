@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1x8ms73q3d5m"
-path="res://.godot/imported/loje_dark.png-2296ebff112bc99351b16dd80e400cea.ctex"
+path="res://.godot/imported/loje_dark.png-aa059bf313851a336d7a782bc64bae82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/loje_dark.png"
-dest_files=["res://.godot/imported/loje_dark.png-2296ebff112bc99351b16dd80e400cea.ctex"]
+source_file="res://assets/loje_dark.png"
+dest_files=["res://.godot/imported/loje_dark.png-aa059bf313851a336d7a782bc64bae82.ctex"]
 
 [params]
 

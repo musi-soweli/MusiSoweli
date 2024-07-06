@@ -1,39 +1,50 @@
 extends TextureRect
-signal space_hovered(space : BoardSpace)
-signal piece_selected(space : BoardSpace)
-signal move_selected(move : Action)
+
+signal space_hovered(space: BoardSpace)
+signal piece_selected(space: BoardSpace)
+signal move_selected(move: Action)
 signal empty_selected()
-const EMPTY : Texture2D = preload("res://Assets/empty.png")
-const MOVE : Texture2D = preload("res://Assets/tawa.png")
-const DOUBLE_MOVE : Texture2D = preload("res://Assets/tawa_mute.png")
-const CAPTURE : Texture2D = preload("res://Assets/utala.png")
-const DOUBLE_CAPTURE : Texture2D = preload("res://Assets/utala_mute.png")
-var space : BoardSpace
-var move : Action
-var moveable : bool = false
-var selectable : bool = true
+
+const EMPTY: Texture2D = preload ("res://assets/empty.png")
+const MOVE: Texture2D = preload ("res://assets/tawa.png")
+const DOUBLE_MOVE: Texture2D = preload ("res://assets/tawa_mute.png")
+const CAPTURE: Texture2D = preload ("res://assets/utala.png")
+const DOUBLE_CAPTURE: Texture2D = preload ("res://assets/utala_mute.png")
+
+var space: BoardSpace
+var move: Action
+var moveable: bool = false
+var selectable: bool = true
+
 func set_space(_space):
 	space = _space
 	name = space.name
 	texture = space.get_texture()
+
 	if len(space.pieces) > 0:
 		get_node("BottomPiece").show()
 		get_node("BottomPiece").texture = space.pieces[0].get_texture()
 	else:
 		get_node("BottomPiece").hide()
+
 	if len(space.pieces) > 1:
 		get_node("TopPiece").show()
-		get_node("TopPiece").texture = space.pieces[-1].get_texture()
+		get_node("TopPiece").texture = space.pieces[- 1].get_texture()
 	else:
 		get_node("TopPiece").hide()
+
 	update_icon()
-func set_move(_move : Action):
+
+func set_move(_move: Action):
 	move = _move
+
 	if _move == null:
 		moveable = false
 	else:
 		moveable = true
+
 	update_icon()
+
 func update_icon():
 	if moveable:
 		if move.carries:
@@ -48,8 +59,10 @@ func update_icon():
 				get_node("Button").texture_normal = MOVE
 	else:
 		get_node("Button").texture_normal = EMPTY
+
 func _on_button_mouse_entered():
 	emit_signal("space_hovered", space)
+
 func _on_button_pressed():
 	if moveable:
 		emit_signal("move_selected", move)

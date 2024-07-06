@@ -1,6 +1,7 @@
 extends VBoxContainer
-func display_space(space : BoardSpace):
-	get_node("SpaceInfo/Title").text = space.name+" ("+space.type.name+")"
+
+func display_space(space: BoardSpace):
+	get_node("SpaceInfo/Title").text = space.name + " (" + space.type.name + ")"
 	get_node("SpaceInfo/Space").texture = space.get_texture()
 	get_node("SpaceInfo/Info").text = space.type.get_description(space)
 	if len(space.pieces) > 0:

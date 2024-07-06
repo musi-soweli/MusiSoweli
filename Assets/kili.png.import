@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3lxg2bj76a4c"
-path="res://.godot/imported/kili.png-1a6a7276c2793de9d26b7819de4a3216.ctex"
+path="res://.godot/imported/kili.png-cb78f50a828a643cc5e7e586fc093797.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/kili.png"
-dest_files=["res://.godot/imported/kili.png-1a6a7276c2793de9d26b7819de4a3216.ctex"]
+source_file="res://assets/kili.png"
+dest_files=["res://.godot/imported/kili.png-cb78f50a828a643cc5e7e586fc093797.ctex"]
 
 [params]
 

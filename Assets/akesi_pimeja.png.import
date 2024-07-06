@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://gdsrj0ed8xyj"
-path="res://.godot/imported/akesi_pimeja.png-8fd5b85851bfa3b3b023accdbaa7700e.ctex"
+path="res://.godot/imported/akesi_pimeja.png-c68a7da313cedb02739af18f6f0ce6f6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/akesi_pimeja.png"
-dest_files=["res://.godot/imported/akesi_pimeja.png-8fd5b85851bfa3b3b023accdbaa7700e.ctex"]
+source_file="res://assets/akesi_pimeja.png"
+dest_files=["res://.godot/imported/akesi_pimeja.png-c68a7da313cedb02739af18f6f0ce6f6.ctex"]
 
 [params]
 
