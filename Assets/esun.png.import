@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cv3oa5nx30rdy"
-path="res://.godot/imported/esun.png-20b20d9366360691f84a13d019ea0b70.ctex"
+path="res://.godot/imported/esun.png-d03be80d40b808a1c208cea78b89a2ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/esun.png"
-dest_files=["res://.godot/imported/esun.png-20b20d9366360691f84a13d019ea0b70.ctex"]
+source_file="res://Assets/esun.png"
+dest_files=["res://.godot/imported/esun.png-d03be80d40b808a1c208cea78b89a2ff.ctex"]
 
 [params]
 

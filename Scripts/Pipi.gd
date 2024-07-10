@@ -18,24 +18,10 @@ func get_description():
 
 func get_potential_moves(current_turn: int, carry: bool) -> Array[Action]:
 	var moves: Array[Action] = []
-
 	if current_turn != owner:
 		return moves
-
-	for pos: BoardSpace in position.get_adjacent_spaces(1):
-		if can_move_onto_space(pos):
-			if carry:
-				if len(position.pieces) > 1 and len(pos.pieces) == 0:
-					moves.append(MovementAction.new(position, pos, true, false))
-			else:
-				moves.append(MovementAction.new(position, pos, false, false))
-	for pos: BoardSpace in position.get_diagonal_spaces(1):
-		if can_capture_onto_space(pos):
-			if carry:
-				if len(position.pieces) > 1 and len(pos.pieces) == 1:
-					moves.append(MovementAction.new(position, pos, true, true))
-			else:
-				moves.append(MovementAction.new(position, pos, false, true))
+	add_moves_from_spaces(position.get_adjacent_spaces(1), carry, true, false, moves)
+	add_moves_from_spaces(position.get_diagonal_spaces(1), carry, false, true, moves)
 	return moves
 
 func get_copy(board_space: BoardSpace) -> GamePiece:

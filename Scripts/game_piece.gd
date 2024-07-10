@@ -46,3 +46,18 @@ func can_capture_onto_space(space: BoardSpace) -> bool:
 
 func get_flipped() -> GamePiece:
 	return self.get_copy(position)
+
+func add_moves_from_spaces(spaces : Array[BoardSpace], carry : bool, move : bool, capture : bool, moves : Array[Action]):
+	for pos: BoardSpace in spaces:
+		if move and can_move_onto_space(pos):
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 0:
+					moves.append(MovementAction.new(position, pos, true, false))
+			else:
+				moves.append(MovementAction.new(position, pos, false, false))
+		elif capture and can_capture_onto_space(pos):
+			if carry:
+				if len(position.pieces) > 1 and len(pos.pieces) == 1:
+					moves.append(MovementAction.new(position, pos, true, true))
+			else:
+				moves.append(MovementAction.new(position, pos, false, true))

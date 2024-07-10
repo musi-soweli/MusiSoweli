@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://q7vtly8h557q"
-path="res://.godot/imported/empty_light.png-bb164208a7aadb7cf3980e5a3af5ee48.ctex"
+path="res://.godot/imported/empty_light.png-4cc47cc2807a7bb14ba0afc5c331bf42.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/empty_light.png"
-dest_files=["res://.godot/imported/empty_light.png-bb164208a7aadb7cf3980e5a3af5ee48.ctex"]
+source_file="res://Assets/empty_light.png"
+dest_files=["res://.godot/imported/empty_light.png-4cc47cc2807a7bb14ba0afc5c331bf42.ctex"]
 
 [params]
 

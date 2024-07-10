@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bq4w2kqrxe2mx"
-path="res://.godot/imported/soweli_pimeja.png-257d7b98d6842676d967f10332128a19.ctex"
+path="res://.godot/imported/soweli_pimeja.png-d8ab7d7f61b9fe32629925a16649959d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/soweli_pimeja.png"
-dest_files=["res://.godot/imported/soweli_pimeja.png-257d7b98d6842676d967f10332128a19.ctex"]
+source_file="res://Assets/soweli_pimeja.png"
+dest_files=["res://.godot/imported/soweli_pimeja.png-d8ab7d7f61b9fe32629925a16649959d.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cg8clxl6p6y2i"
-path="res://.godot/imported/telo_light.png-296044bf3147f63e22ef8232a5d95425.ctex"
+path="res://.godot/imported/telo_light.png-426a3b326779e01db254271c55236c87.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/telo_light.png"
-dest_files=["res://.godot/imported/telo_light.png-296044bf3147f63e22ef8232a5d95425.ctex"]
+source_file="res://Assets/telo_light.png"
+dest_files=["res://.godot/imported/telo_light.png-426a3b326779e01db254271c55236c87.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dp0tonfmkeca5"
-path="res://.godot/imported/kasi_dark.png-3d0e5e515d2e15cd577fc5cd27b0c570.ctex"
+path="res://.godot/imported/kasi_dark.png-3aa960990aef6164d9785bea423e8a3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/kasi_dark.png"
-dest_files=["res://.godot/imported/kasi_dark.png-3d0e5e515d2e15cd577fc5cd27b0c570.ctex"]
+source_file="res://Assets/kasi_dark.png"
+dest_files=["res://.godot/imported/kasi_dark.png-3aa960990aef6164d9785bea423e8a3b.ctex"]
 
 [params]
 

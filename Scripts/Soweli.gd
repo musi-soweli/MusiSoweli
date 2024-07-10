@@ -27,7 +27,6 @@ func get_potential_moves(current_turn: int, carry: bool) -> Array[Action]:
 
 	for i in range(len(spaces)):
 		var direction: Vector2 = Vector2(spaces[i].row - position.row, spaces[i].column - position.column)
-
 		while true:
 			if spaces[i].piece_num() != 0 or spaces[i].type == SpaceType.TELO:
 				break
@@ -37,21 +36,7 @@ func get_potential_moves(current_turn: int, carry: bool) -> Array[Action]:
 			else:
 				check_spaces.append(spaces[i].get_space_relative(direction.x, direction.y)) # check one extra to see if you can capture
 				break
-
-	for pos in check_spaces:
-		if can_capture_onto_space(pos):
-			if carry:
-				if len(position.pieces) > 1 and len(pos.pieces) == 1:
-					moves.append(MovementAction.new(position, pos, true, true))
-			else:
-				moves.append(MovementAction.new(position, pos, false, true))
-		elif can_move_onto_space(pos):
-			if carry:
-				if len(position.pieces) > 1 and len(pos.pieces) == 0:
-					moves.append(MovementAction.new(position, pos, true, false))
-			else:
-				moves.append(MovementAction.new(position, pos, false, false))
-
+	add_moves_from_spaces(check_spaces, carry, true, true, moves)
 	return moves
 
 func get_copy(board_space: BoardSpace) -> GamePiece:

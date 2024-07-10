@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfqhk38y5bjgp"
-path="res://.godot/imported/tomo_pimeja_dark.png-c68829f5c822623bc0298ad10fe00ad4.ctex"
+path="res://.godot/imported/tomo_pimeja_dark.png-bcb3cefb13731097997c1fce1af78b3a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tomo_pimeja_dark.png"
-dest_files=["res://.godot/imported/tomo_pimeja_dark.png-c68829f5c822623bc0298ad10fe00ad4.ctex"]
+source_file="res://Assets/tomo_pimeja_dark.png"
+dest_files=["res://.godot/imported/tomo_pimeja_dark.png-bcb3cefb13731097997c1fce1af78b3a.ctex"]
 
 [params]
 

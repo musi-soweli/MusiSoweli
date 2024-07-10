@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dnu7i3wgm8bqi"
-path="res://.godot/imported/tawa_mute.png-ff7178b527cc6ede92291948c8579446.ctex"
+path="res://.godot/imported/tawa_mute.png-4e24ef40af5a201a82faa25fd82699bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tawa_mute.png"
-dest_files=["res://.godot/imported/tawa_mute.png-ff7178b527cc6ede92291948c8579446.ctex"]
+source_file="res://Assets/tawa_mute.png"
+dest_files=["res://.godot/imported/tawa_mute.png-4e24ef40af5a201a82faa25fd82699bf.ctex"]
 
 [params]
 
