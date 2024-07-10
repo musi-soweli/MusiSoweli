@@ -13,6 +13,7 @@ func execute(board_state: BoardState) -> BoardState:
 	var new_state = BoardState.from(board_state)
 	var n: Array[GamePiece] = []
 	new_state.set_unused_pieces_for_player(player, n)
+	new_state.set_are_pieces_selected_for_player(player, true)
 	#TODO: Multiplayer compatibility
 	if player == LOJE:
 		for i in range(len(pieces)):

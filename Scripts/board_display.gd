@@ -17,13 +17,11 @@ var pov: int
 var local: bool
 var potential_moves: Array[Array] = []
 var selected_space: BoardSpace
-var moving = false
+var can_move = false
 
 func populate_grid(board_state: BoardState):
-	if local:
+	if local and board_state.next_state == null:
 		pov = board_state.get_current_player()
-
-	moving = board_state.get_current_player() == pov
 
 	for child: Node in get_children():
 		child.queue_free()
@@ -41,10 +39,8 @@ func populate_grid(board_state: BoardState):
 	size.x = (size.y / 7.0) * 9.0
 
 func update_grid(board_state: BoardState):
-	if local:
+	if local and board_state.next_state == null:
 		pov = board_state.get_current_player()
-
-	moving = board_state.get_current_player() == pov
 
 	pivot_offset = Vector2(size.x * 0.5, size.y * 0.5)
 	rotation_degrees = 180 if pov == PIMEJA else 0
@@ -65,9 +61,9 @@ func on_empty_selected():
 	hide_potential_moves()
 
 func on_piece_selected(space: BoardSpace):
-	if moving:
+	if can_move:
 		if displaying_moves and space == selected_space:
-			moves_displayed += 1
+			moves_displayed += 1#Cycle through different types of moves
 
 			if moves_displayed >= len(potential_moves):
 				moves_displayed = 0
@@ -105,7 +101,7 @@ func hide_potential_moves():
 		child.set_move(null)
 
 func on_move_selected(move: Action):
-	if moving:
+	if can_move:
 		for child in get_children():
 			child.set_move(null)
 		emit_signal("move_selected", move)

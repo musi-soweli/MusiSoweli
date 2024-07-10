@@ -10,28 +10,30 @@ var number_to_select: int = 5
 var on_selected: Callable
 
 func display_pieces(pieces: Array[GamePiece], _number_to_select: int, types: Array[SpaceType], _on_selected: Callable, text: String="Select Pieces", cancellable: bool=false) -> void:
-	show()
-	$Cancel.visible = cancellable
-	$Label.text = text
-	number_to_select = _number_to_select
-	on_selected = _on_selected
-	$GridContainer.columns = len(pieces)
-	spaces = []
-	for i in range(len(pieces) * 3):
-		var space_display = SPACE.instantiate()
-		spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < number_to_select else SpaceType.EMPTY, i % 2 == 0, i / len(pieces), i %len(pieces)))
-		if i >= len(pieces) * 2:
-			var p: Array[GamePiece] = [pieces[i - len(pieces) * 2].get_flipped()]
-			p[0].position = spaces[i]
-			spaces[i].pieces = p
-		elif i >= len(pieces):
-			var p: Array[GamePiece] = [pieces[i - len(pieces)]]
-			p[0].position = spaces[i]
-			spaces[i].pieces = p
-		space_display.set_space(spaces[i])
-		$GridContainer.add_child(space_display)
-		space_display.connect("space_hovered", Callable(self, "on_space_hovered"))
-		space_display.connect("piece_selected", Callable(self, "on_piece_selected"))
+	if len(pieces) > 0:
+		show()
+		$Cancel.visible = cancellable
+		$Label.text = text
+		number_to_select = _number_to_select
+		on_selected = _on_selected
+		$GridContainer.columns = len(pieces)
+		$GridContainer.size.x = len(pieces)*100
+		spaces = []
+		for i in range(len(pieces) * 3):
+			var space_display = SPACE.instantiate()
+			spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < number_to_select else SpaceType.EMPTY, i % 2 == 0, i / len(pieces), i %len(pieces)))
+			if i >= len(pieces) * 2:
+				var p: Array[GamePiece] = [pieces[i - len(pieces) * 2].get_flipped()]
+				p[0].position = spaces[i]
+				spaces[i].pieces = p
+			elif i >= len(pieces):
+				var p: Array[GamePiece] = [pieces[i - len(pieces)]]
+				p[0].position = spaces[i]
+				spaces[i].pieces = p
+			space_display.set_space(spaces[i])
+			$GridContainer.add_child(space_display)
+			space_display.connect("space_hovered", Callable(self, "on_space_hovered"))
+			space_display.connect("piece_selected", Callable(self, "on_piece_selected"))
 
 func on_space_hovered(space: BoardSpace) -> void:
 	emit_signal("space_hovered", space)
@@ -73,9 +75,7 @@ func on_piece_selected(space: BoardSpace) -> void: # take the piece off the spac
 	$Button.disabled = redy
 
 func on_button_pressed():
-	for child in $GridContainer.get_children():
-		child.queue_free()
-	hide()
+	disappear()
 	var pieces: Array[GamePiece] = []
 	for i in range(number_to_select):
 		pieces.append(spaces[i].pieces[0])
@@ -85,5 +85,11 @@ func on_cancel_pressed():
 	for child in $GridContainer.get_children():
 		child.queue_free()
 	hide()
-	var pieces: Array[GamePiece] = []
+	#var pieces: Array[GamePiece] = []
 	emit_signal("cancelled")
+
+func disappear():
+	if visible:
+		for child in $GridContainer.get_children():
+			child.queue_free()
+		hide()

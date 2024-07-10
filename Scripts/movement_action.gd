@@ -12,16 +12,18 @@ func _init(_old_position: BoardSpace, _new_position: BoardSpace, _carries: bool,
 	captures = _captures
 
 func execute(board_state: BoardState) -> BoardState:
-	var new_state = BoardState.from(board_state)
+	var new_state : BoardState = BoardState.from(board_state)
 
 	if captures:
-		new_state.spaces[new_position.row][new_position.column].pieces.pop_back()
+		var captured_piece : GamePiece = new_state.spaces[new_position.row][new_position.column].pieces.pop_back()
+		captured_piece.position = null
+		new_state.add_unused_piece_for_player(captured_piece.owner, captured_piece)
 
-	var top_piece = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
+	var top_piece : GamePiece = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
 	top_piece.position = new_state.spaces[new_position.row][new_position.column]
 
 	if carries:
-		var carried = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
+		var carried : GamePiece = new_state.spaces[old_position.row][old_position.column].pieces.pop_back()
 		new_state.spaces[new_position.row][new_position.column].pieces.append(carried)
 		carried.position = new_state.spaces[new_position.row][new_position.column]
 

@@ -74,18 +74,21 @@ func get_potential_moves() -> Array[Array]:
 
 	if board_state.complete:
 		return moves
+	if pieces[- 1] is Kili:
+		if len(board_state.get_unused_pieces_for_player(board_state.get_current_player())) > 0:
+			moves.append(pieces[- 1].get_potential_moves(board_state.get_current_player(), false))#Add kili promotion if there's one on top and there is a piece available
+	else:
+		var noCarry = pieces[- 1].get_potential_moves(board_state.get_current_player(), false)
 
-	var noCarry = pieces[- 1].get_potential_moves(board_state.get_current_player(), false)
+		if len(noCarry) > 0:
+			moves.append(noCarry)#Add an array of non-carrying moves if there are any
 
-	if len(noCarry) > 0:
-		moves.append(noCarry)
+		var carry = pieces[- 1].get_potential_moves(board_state.get_current_player(), true)
 
-	var carry = pieces[- 1].get_potential_moves(board_state.get_current_player(), true)
-
-	if len(carry) > 0:
-		moves.append(carry)
-
-	if len(pieces) > 1 and pieces[0] is Kili and type == SpaceType.TOMO_LOJE or type == SpaceType.TOMO_PIMEJA:
-		moves.append(pieces[0].get_potential_moves(board_state.get_current_player(), false))
+		if len(carry) > 0:
+			moves.append(carry)#Add an array of carrying moves if there are any
+	
+		if len(pieces) > 1 and pieces[0] is Kili and len(board_state.get_unused_pieces_for_player(board_state.get_current_player())) > 0:
+			moves.append(pieces[0].get_potential_moves(board_state.get_current_player(), false))#Add kili promotion if there's one on bottom and there is a piece availabl
 
 	return moves

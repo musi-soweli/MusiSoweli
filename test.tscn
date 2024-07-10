@@ -216,7 +216,7 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="GameInfo" type="Control" parent="InfoPanel/InfoDisplay"]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="InfoPanel/InfoDisplay/GameInfo"]
@@ -224,19 +224,45 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "piece selection phase"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PreviousMoveButton" type="Button" parent="InfoPanel/InfoDisplay/GameInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 103.0
+offset_top = 40.0
+offset_right = -127.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "previous"
+
+[node name="NextMoveButton" type="Button" parent="InfoPanel/InfoDisplay/GameInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 182.0
+offset_top = 40.0
+offset_right = -63.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "next
+"
+
 [node name="PassButton" type="Button" parent="InfoPanel/InfoDisplay/GameInfo"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 245.0
+offset_top = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "pass"
@@ -309,6 +335,8 @@ text = "Select Piece"
 
 [connection signal="move_selected" from="BoardDisplay" to="." method="on_board_display_move_selected"]
 [connection signal="promotion" from="BoardDisplay" to="." method="on_board_display_promotion"]
+[connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/PreviousMoveButton" to="." method="on_previous_move_button_pressed"]
+[connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/NextMoveButton" to="." method="on_next_move_button_pressed"]
 [connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/PassButton" to="." method="on_pass_button_pressed"]
 [connection signal="cancelled" from="PieceSelectionDisplay" to="." method="on_piece_selection_display_cancelled"]
 [connection signal="space_hovered" from="PieceSelectionDisplay" to="InfoPanel/InfoDisplay" method="display_space"]

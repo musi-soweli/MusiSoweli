@@ -10,7 +10,10 @@ var complete: bool = false
 var turn: int
 var passes: int = 0
 var player_order : Array[int] = [LOJE, PIMEJA]
+var pieces_selected : Array[bool] = [false, false]
 var current_player_num : int
+var previous_state: BoardState = null
+var next_state: BoardState = null#TODO: Might not wanna settle with this in the end
 
 @export var kili_amount: int = 4
 
@@ -96,6 +99,7 @@ static func get_starting_board_state() -> BoardState:
 	state.unused_pieces.append(p2)
 
 	return state
+
 static func from(board_state: BoardState) -> BoardState: # TODO: There has to be a better way of doing this with deep copies this feel so inefficient
 	var new_board = BoardState.new(board_state.current_player_num, board_state.turn)
 	var a : Array[Array] = []
@@ -120,6 +124,11 @@ static func from(board_state: BoardState) -> BoardState: # TODO: There has to be
 		for j in range(len(board_state.unused_pieces[i])):
 			new_board.unused_pieces[i].append(board_state.unused_pieces[i][j].get_copy(null))
 	
+	for i in range(len(board_state.pieces_selected)):
+		new_board.pieces_selected[i] = board_state.pieces_selected[i]
+	
+	board_state.next_state = new_board
+	new_board.previous_state = board_state
 	new_board.complete = board_state.complete
 	return new_board
 
@@ -131,3 +140,12 @@ func get_unused_pieces_for_player(player: int) -> Array[GamePiece]:
 
 func set_unused_pieces_for_player(player: int, pieces: Array[GamePiece]) -> void:
 	unused_pieces[player_order.find(player)] = pieces
+
+func add_unused_piece_for_player(player: int, piece: GamePiece) -> void:
+	unused_pieces[player_order.find(player)].append(piece)
+
+func get_are_pieces_selected_for_player(player: int) -> bool:
+	return pieces_selected[player_order.find(player)]
+
+func set_are_pieces_selected_for_player(player: int, selected: bool) -> void:
+	pieces_selected[player_order.find(player)] = selected
