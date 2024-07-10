@@ -1,14 +1,14 @@
 class_name Akesi extends GamePiece
 
-var LOJE: Texture2D = preload ("res://assets/akesi_loje.png")
-var PIMEJA: Texture2D = preload ("res://assets/akesi_pimeja.png")
+var TEXTURE_LOJE: Texture2D = preload ("res://assets/akesi_loje.png")
+var TEXTURE_PIMEJA: Texture2D = preload ("res://assets/akesi_pimeja.png")
 
 func _init(_position: BoardSpace, _owner: int):
 	name = "akesi"
 	symbol = "A"
 	position = _position
 	owner = _owner
-	textures = [LOJE, PIMEJA]
+	textures = [TEXTURE_LOJE, TEXTURE_PIMEJA]
 	aquatic = true
 
 func get_name():

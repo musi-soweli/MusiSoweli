@@ -6,20 +6,20 @@ signal cancelled()
 const SPACE = preload ("res://space_display.tscn")
 
 var spaces: Array[BoardSpace] = []
-var selection_num: int = 5
+var number_to_select: int = 5
 var on_selected: Callable
 
-func display_pieces(pieces: Array[GamePiece], _selection_num: int, types: Array[SpaceType], _on_selected: Callable, text: String="Select Pieces", cancellable: bool=false) -> void:
+func display_pieces(pieces: Array[GamePiece], _number_to_select: int, types: Array[SpaceType], _on_selected: Callable, text: String="Select Pieces", cancellable: bool=false) -> void:
 	show()
 	$Cancel.visible = cancellable
 	$Label.text = text
-	selection_num = _selection_num
+	number_to_select = _number_to_select
 	on_selected = _on_selected
 	$GridContainer.columns = len(pieces)
 	spaces = []
 	for i in range(len(pieces) * 3):
 		var space_display = SPACE.instantiate()
-		spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < selection_num else SpaceType.EMPTY, i % 2 == 0, i / len(pieces), i %len(pieces)))
+		spaces.append(BoardSpace.new(null, "piece selection", types[i] if i < number_to_select else SpaceType.EMPTY, i % 2 == 0, i / len(pieces), i %len(pieces)))
 		if i >= len(pieces) * 2:
 			var p: Array[GamePiece] = [pieces[i - len(pieces) * 2].get_flipped()]
 			p[0].position = spaces[i]
@@ -48,7 +48,7 @@ func on_piece_selected(space: BoardSpace) -> void: # take the piece off the spac
 				flipped.position = spaces[$GridContainer.columns * 2 + i]
 				break
 	elif space.row == 1:
-		for i in range(selection_num):
+		for i in range(number_to_select):
 			if spaces[i].piece_num() == 0:
 				var piece = spaces[space.row * $GridContainer.columns + space.column].pieces.pop_back()
 				spaces[2 * $GridContainer.columns + space.column].pieces.pop_back()
@@ -56,7 +56,7 @@ func on_piece_selected(space: BoardSpace) -> void: # take the piece off the spac
 				piece.position = spaces[i]
 				break
 	elif space.row == 2:
-		for i in range(selection_num):
+		for i in range(number_to_select):
 			if spaces[i].piece_num() == 0:
 				var piece = spaces[space.row * $GridContainer.columns + space.column].pieces.pop_back()
 				spaces[$GridContainer.columns + space.column].pieces.pop_back()
@@ -66,7 +66,7 @@ func on_piece_selected(space: BoardSpace) -> void: # take the piece off the spac
 	for i in range($GridContainer.get_child_count()):
 		$GridContainer.get_child(i).set_space(spaces[i])
 	var redy = false
-	for i in range(selection_num):
+	for i in range(number_to_select):
 		if spaces[i].piece_num() == 0:
 			redy = true
 			break
@@ -77,7 +77,7 @@ func on_button_pressed():
 		child.queue_free()
 	hide()
 	var pieces: Array[GamePiece] = []
-	for i in range(selection_num):
+	for i in range(number_to_select):
 		pieces.append(spaces[i].pieces[0])
 	on_selected.bind(pieces).call()
 

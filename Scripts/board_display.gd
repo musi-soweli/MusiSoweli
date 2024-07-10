@@ -1,5 +1,7 @@
 extends GridContainer
 
+enum {LASO, LOJE, PIMEJA, JELO, WALO}
+
 signal move_selected(move: Action)
 signal promotion(move: PromotionAction)
 
@@ -19,9 +21,9 @@ var moving = false
 
 func populate_grid(board_state: BoardState):
 	if local:
-		pov = board_state.orientation
+		pov = board_state.get_current_player()
 
-	moving = board_state.orientation == pov
+	moving = board_state.get_current_player() == pov
 
 	for child: Node in get_children():
 		child.queue_free()
@@ -40,17 +42,17 @@ func populate_grid(board_state: BoardState):
 
 func update_grid(board_state: BoardState):
 	if local:
-		pov = board_state.orientation
+		pov = board_state.get_current_player()
 
-	moving = board_state.orientation == pov
+	moving = board_state.get_current_player() == pov
 
 	pivot_offset = Vector2(size.x * 0.5, size.y * 0.5)
-	rotation_degrees = 180 if pov == 1 else 0
+	rotation_degrees = 180 if pov == PIMEJA else 0
 
 	for i: int in range(get_child_count()):
 		get_child(i).set_space(board_state.spaces[i / 9][i % 9])
 		get_child(i).pivot_offset = Vector2(get_child(i).size.x * 0.5, get_child(i).size.y * 0.5)
-		get_child(i).rotation_degrees = 180 if pov == 1 else 0
+		get_child(i).rotation_degrees = 180 if pov == PIMEJA else 0
 
 #func _ready():
 	#current_state = BoardState.get_starting_board_state()

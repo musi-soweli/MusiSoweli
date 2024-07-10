@@ -1,14 +1,14 @@
 class_name Soweli extends GamePiece
 
-var LOJE: Texture2D = preload ("res://assets/soweli_loje.png")
-var PIMEJA: Texture2D = preload ("res://assets/soweli_pimeja.png")
+var TEXTURE_LOJE: Texture2D = preload ("res://assets/soweli_loje.png")
+var TEXTURE_PIMEJA: Texture2D = preload ("res://assets/soweli_pimeja.png")
 
 func _init(_position: BoardSpace, _owner: int):
 	name = "soweli"
 	symbol = "S"
 	position = _position
 	owner = _owner
-	textures = [LOJE, PIMEJA]
+	textures = [TEXTURE_LOJE, TEXTURE_PIMEJA]
 
 func get_name():
 	return name + " " + COLORS[owner]

@@ -1,16 +1,22 @@
 class_name GamePiece
 
+enum {LASO, LOJE, PIMEJA, JELO, WALO}
+
 const COLORS: Array[String] = ["laso", "loje", "pimeja", "jelo", "walo"]
 
 var name: String
 var symbol: String
-var owner: int # 0 for kili, 1-4 for players
+var owner: int
 var position: BoardSpace
 var aquatic: bool = false
 var textures: Array[Resource]
 
 func get_texture():
-	return textures[owner - 1]
+	if owner == LOJE:
+		return textures[0]
+	else:#elif owner == PIMEJA:
+		return textures[1]
+	#return textures[owner - 1]
 
 func get_potential_moves(_current_turn: int, _carry: bool) -> Array[Action]:
 	return []

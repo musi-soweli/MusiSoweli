@@ -1,14 +1,14 @@
 class_name Pipi extends GamePiece
 
-var LOJE: Texture2D = preload ("res://assets/pipi_loje.png")
-var PIMEJA: Texture2D = preload ("res://assets/pipi_pimeja.png")
+var TEXTURE_LOJE: Texture2D = preload ("res://assets/pipi_loje.png")
+var TEXTURE_PIMEJA: Texture2D = preload ("res://assets/pipi_pimeja.png")
 
 func _init(_position: BoardSpace, _owner: int):
 	name = "pipi"
 	symbol = "P"
 	position = _position
 	owner = _owner
-	textures = [LOJE, PIMEJA]
+	textures = [TEXTURE_LOJE, TEXTURE_PIMEJA]
 
 func get_name():
 	return name + " " + COLORS[owner]
