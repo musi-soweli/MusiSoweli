@@ -36,6 +36,7 @@ func populate_grid(board_state: BoardState):
 			display.connect("empty_selected", Callable(self, "on_empty_selected"))
 			add_child(display)
 
+func _process(delta):
 	size.x = (size.y / 7.0) * 9.0
 
 func update_grid(board_state: BoardState):

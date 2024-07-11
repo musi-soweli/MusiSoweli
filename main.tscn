@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://b46dorjmtb4dy"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.5
+offset_top = -47.0
+offset_right = 45.5
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "musi soweli"
+
+[node name="CreateButton" type="Button" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -7.5
+offset_right = 100.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "create game"
+
+[node name="JoinButton" type="Button" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 37.5
+offset_right = 100.0
+offset_bottom = 72.5
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "join game"
+
+[node name="Create" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Create"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_top = 15.0
+offset_right = 48.0
+offset_bottom = 38.0
+grow_horizontal = 2
+text = "create game"
+
+[node name="BackButton" type="Button" parent="Create"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 110.0
+offset_bottom = 45.0
+text = "back"
+
+[node name="SpinBox" type="SpinBox" parent="Create"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = -15.0
+offset_right = 109.063
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 1.0
+max_value = 6.0
+value = 4.0
+
+[node name="Label" type="Label" parent="Create/SpinBox"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -11.5
+offset_right = -5.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "number of kili:"
+
+[node name="CreateButton" type="Button" parent="Create"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -45.0
+offset_right = 50.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "create"
