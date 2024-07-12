@@ -27,6 +27,9 @@ func load_notation (notation: String) -> void:
 	update()
 
 func update() -> void:
+	if local and current_state.next_state == null:
+		pov = current_state.get_current_player()
+		$BoardDisplay.pov = pov
 	$PieceSelectionDisplay.disappear()
 	if can_move():
 		if current_state.turn == 0:
@@ -36,13 +39,15 @@ func update() -> void:
 			elif current_state.get_current_player() == PIMEJA:
 				var home_row_types: Array[SpaceType] = [SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA]
 				$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(PIMEJA), 5, home_row_types, Callable(self, "on_pimeja_pieces_selected"), "select pimeja starting pieces")
-		else:
+		elif local:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = "loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn"
-			if not local and current_state.get_current_player() == pov:
-					$InfoPanel/InfoDisplay/GameInfo/Label.text = "your turn"
+		else:
+			$InfoPanel/InfoDisplay/GameInfo/Label.text = "your turn"
 	elif current_state.complete:
 				var scores = current_state.get_scores()
 				$InfoPanel/InfoDisplay/GameInfo/Label.text = "game over (" + str(scores[0]) + " - " + str(scores[1]) + ")"
+	else:
+		$InfoPanel/InfoDisplay/GameInfo/Label.text = "loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn"
 	$BoardDisplay.update_grid(current_state)
 	$BoardDisplay.can_move = can_move()
 	$InfoPanel/InfoDisplay/GameInfo/PassButton.disabled = not can_move() or current_state.turn == 0
@@ -105,10 +110,10 @@ func on_next_move_button_pressed() -> void:
 		update()
 
 func can_move() -> bool:
-	return (not current_state.complete) and (current_state.next_state == null or local)
+	return (not current_state.complete) and (current_state.next_state == null or local) and (current_state.get_current_player() == pov or local)
 
 func on_resign_button_pressed() -> void:
-	print(get_notation())
+	pass
 
 func get_notation() -> String:
 	var notation = ""
@@ -128,4 +133,25 @@ func get_notation() -> String:
 
 func on_notation_button_pressed():
 	current_state = current_state.apply_notation($InfoPanel/InfoDisplay/DevPanel/LineEdit.text)
+	update()
+
+func on_export_game_button_pressed():
+	print("Game Notation:")
+	print(get_notation())
+
+func on_export_move_button_pressed():
+	print("Previous Move Notation:")
+	if current_state.previous_state != null:
+		if current_state.previous_state.move != null:
+			print(current_state.previous_state.move.get_notation())
+		else:
+			print("No previous move to export.")
+	else:
+		print("No previous move to export.")
+
+func on_toggle_local_button_pressed():
+	local = not local
+	$InfoPanel/InfoDisplay/DevPanel/ToggleLocalButton.text = "make not local" if local else "make local"
+	$BoardDisplay.local = local
+	$BoardDisplay.pov = pov
 	update()

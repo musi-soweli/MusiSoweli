@@ -41,9 +41,9 @@ func execute(board_state: BoardState) -> BoardState:
 
 func get_notation() -> String: #TODO: change this and the decoder to be how notation actually works
 	#var s : String = BoardState.column_names[old_position.column] + str(old_position.row) if piece_symbol == "P" else piece_symbol
-	var s : String = BoardState.column_names[old_position.column] + str(old_position.row)
+	var s : String = BoardState.column_names[old_position.column] + str(7-old_position.row)
 	s += "x" if captures else ""
-	s += BoardState.column_names[new_position.column] + str(new_position.row)
+	s += BoardState.column_names[new_position.column] + str(7-new_position.row)
 	s += "+" if carries else ""
 	#TODO: Add ^ if it carries
 	return s

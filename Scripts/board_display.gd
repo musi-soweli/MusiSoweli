@@ -40,9 +40,6 @@ func _process(delta):
 	size.x = (size.y / 7.0) * 9.0
 
 func update_grid(board_state: BoardState):
-	if local and board_state.next_state == null:
-		pov = board_state.get_current_player()
-
 	pivot_offset = Vector2(size.x * 0.5, size.y * 0.5)
 	rotation_degrees = 180 if pov == PIMEJA else 0
 

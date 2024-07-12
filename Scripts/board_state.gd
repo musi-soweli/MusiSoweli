@@ -187,7 +187,7 @@ func apply_notation(notation: String) -> BoardState:
 	return self
 
 func get_space_from_notation(notation: String) -> BoardSpace:
-	return spaces[int(notation[1])][column_names.find(notation[0])]
+	return spaces[7-int(notation[1])][column_names.find(notation[0])]
 
 func pop_unused_piece_from_notation(player: int, notation: String) -> GamePiece:
 	for i in len(get_unused_pieces_for_player(player)):
