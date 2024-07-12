@@ -36,9 +36,11 @@ func populate_grid(board_state: BoardState):
 			display.connect("empty_selected", Callable(self, "on_empty_selected"))
 			add_child(display)
 
-func _process(delta):
-	#size.x = (size.y / 7.0) * 9.0
-	size.x = size.y
+func _process(_delta):
+	if get_child_count()/columns == 7:
+		size.x = (size.y / 7.0) * 9.0
+	else:
+		size.x = size.y
 
 func update_grid(board_state: BoardState):
 	pivot_offset = Vector2(size.x * 0.5, size.y * 0.5)

@@ -32,11 +32,11 @@ func get_potential_moves(current_turn: int, carry: bool) -> Array[Action]:
 		while true:
 			if spaces[i].piece_num() != 0 or spaces[i].type == SpaceType.TELO:
 				break
-			if can_move_onto_space(spaces[i].get_space_relative(direction.x, direction.y)):
-				spaces[i] = spaces[i].get_space_relative(direction.x, direction.y)
+			if can_move_onto_space(spaces[i].get_space_relative(int(direction.x), int(direction.y))):
+				spaces[i] = spaces[i].get_space_relative(int(direction.x), int(direction.y))
 				check_spaces.append(spaces[i])
 			else:
-				check_spaces.append(spaces[i].get_space_relative(direction.x, direction.y)) # check one extra to see if you can capture
+				check_spaces.append(spaces[i].get_space_relative(int(direction.x), int(direction.y))) # check one extra to see if you can capture
 				break
 	add_moves_from_spaces(check_spaces, carry, true, true, moves)
 	return moves

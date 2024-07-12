@@ -6,18 +6,15 @@
 [ext_resource type="Script" path="res://scripts/piece_selection_display.gd" id="6_6rbbu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7mfwu"]
-load_path = "res://.godot/imported/empty_dark.png-daf928d4a0760f67799be37b3d17b1d8.ctex"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dmm7h"]
-load_path = "res://.godot/imported/kili.png-1a6a7276c2793de9d26b7819de4a3216.ctex"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6edya"]
-load_path = "res://.godot/imported/pipi_loje.png-a39ff178e409179f923b786721ac6499.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihssm"]
 bg_color = Color(0.0431373, 0.372549, 0.215686, 1)
 
-[node name="Control" type="Control"]
+[node name="GameDisplay" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

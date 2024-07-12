@@ -1,15 +1,17 @@
-[gd_scene format=3 uid="uid://b46dorjmtb4dy"]
+[gd_scene load_steps=2 format=3 uid="uid://b46dorjmtb4dy"]
 
-[node name="Control" type="Control"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_re45p"]
+
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_re45p")
 
 [node name="Main" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -70,6 +72,7 @@ disabled = true
 text = "join game"
 
 [node name="Create" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,6 +106,28 @@ offset_right = 110.0
 offset_bottom = 45.0
 text = "back"
 
+[node name="ItemList" type="ItemList" parent="Create"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -113.0
+offset_right = 65.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+allow_search = false
+item_count = 2
+max_columns = 2
+same_column_width = true
+icon_mode = 0
+item_0/text = "local"
+item_1/text = "online"
+item_1/disabled = true
+
 [node name="SpinBox" type="SpinBox" parent="Create"]
 layout_mode = 1
 anchors_preset = 8
@@ -132,6 +157,35 @@ offset_bottom = 11.5
 grow_vertical = 2
 text = "number of kili:"
 
+[node name="SpinBox2" type="SpinBox" parent="Create"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = -61.0
+offset_right = 109.063
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 2.0
+max_value = 4.0
+value = 2.0
+
+[node name="Label" type="Label" parent="Create/SpinBox2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -11.5
+offset_right = -4.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "number of players:"
+
 [node name="CreateButton" type="Button" parent="Create"]
 layout_mode = 1
 anchors_preset = 7
@@ -146,3 +200,9 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "create"
+
+[connection signal="pressed" from="Main/CreateButton" to="Main" method="hide"]
+[connection signal="pressed" from="Main/CreateButton" to="Create" method="show"]
+[connection signal="pressed" from="Create/BackButton" to="Main" method="show"]
+[connection signal="pressed" from="Create/BackButton" to="Create" method="hide"]
+[connection signal="pressed" from="Create/CreateButton" to="." method="on_create_button_pressed"]

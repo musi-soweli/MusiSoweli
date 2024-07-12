@@ -10,13 +10,28 @@ var first_state: BoardState
 var local: bool = true
 var pov: int = LOJE
 
-func _ready() -> void:
-	current_state = BoardState.get_starting_board_state_4()
-	var player_order : Array[int] = [LOJE, JELO, PIMEJA, WALO]
-	current_state.player_order = player_order
-	var pieces_selected : Array[bool] = [false, false, false, false]
-	current_state.pieces_selected = pieces_selected
+func create(num_players: int, num_kili: int, _local: bool) -> void:
+	if num_players == 4:
+		current_state = BoardState.get_starting_board_state_4()
+		var player_order : Array[int] = [LOJE, JELO, PIMEJA, WALO]
+		current_state.player_order = player_order
+		var pieces_selected : Array[bool] = [false, false, false, false]
+		current_state.pieces_selected = pieces_selected
+	elif num_players == 3:
+		current_state = BoardState.get_starting_board_state_3()
+		var player_order : Array[int] = [LOJE, JELO, PIMEJA]
+		current_state.player_order = player_order
+		var pieces_selected : Array[bool] = [false, false, false]
+		current_state.pieces_selected = pieces_selected
+	else:
+		current_state = BoardState.get_starting_board_state()
+		var player_order : Array[int] = [LOJE, PIMEJA]
+		current_state.player_order = player_order
+		var pieces_selected : Array[bool] = [false, false]
+		current_state.pieces_selected = pieces_selected
+	current_state.kili_amount = num_kili
 	first_state = current_state
+	local = _local
 	$BoardDisplay.local = local
 	$BoardDisplay.pov = pov
 	$BoardDisplay.populate_grid(current_state)
@@ -37,8 +52,8 @@ func update() -> void:
 		if current_state.turn == 0:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. "+player_names[current_state.get_current_player()]+" piece selection"
 			var home_row_types: Array[SpaceType] = []
-			for position in current_state.starting_positions[current_state.player_order.find(current_state.get_current_player())]:
-				home_row_types.append(current_state.spaces[position.y][position.x].type)
+			for pos in current_state.starting_positions[current_state.player_order.find(current_state.get_current_player())]:
+				home_row_types.append(current_state.spaces[pos.y][pos.x].type)
 			$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(current_state.get_current_player()), len(home_row_types), home_row_types, Callable(self, "on_pieces_selected"), "select "+player_names[current_state.get_current_player()]+" starting pieces")
 		elif local:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + player_names[current_state.get_current_player()] + "'s turn"

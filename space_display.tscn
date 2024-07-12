@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b82kf67k7ftr"]
+[gd_scene load_steps=2 format=3 uid="uid://b82kf67k7ftr"]
 
 [ext_resource type="Script" path="res://scripts/space_display.gd" id="1_fws8f"]
-[ext_resource type="Texture2D" uid="uid://q7vtly8h557q" path="res://assets/empty_light.png" id="1_g1mui"]
-[ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://assets/kili.png" id="3_2oicd"]
-[ext_resource type="Texture2D" uid="uid://cvkhhxrfw277c" path="res://assets/empty.png" id="4_xhea7"]
 
 [node name="SpaceDisplay" type="TextureRect"]
 anchors_preset = 15
@@ -15,7 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("1_g1mui")
 expand_mode = 1
 script = ExtResource("1_fws8f")
 
@@ -26,7 +22,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_2oicd")
 expand_mode = 1
 
 [node name="TopPiece" type="TextureRect" parent="."]
@@ -38,7 +33,6 @@ offset_top = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_2oicd")
 expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="."]
@@ -49,7 +43,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture_normal = ExtResource("4_xhea7")
 ignore_texture_size = true
 stretch_mode = 0
 
