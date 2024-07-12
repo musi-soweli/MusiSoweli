@@ -1,6 +1,5 @@
 extends Control
 #TODO: Make this not bad. Probably a game class idk.
-#TODO: Turning back to previous moves
 
 enum {LASO, LOJE, PIMEJA, JELO, WALO}
 
@@ -19,11 +18,8 @@ func _ready() -> void:
 
 func load_notation (notation: String) -> void:
 	current_state = BoardState.get_starting_board_state()
-	current_state.apply_notation(notation)
 	first_state = current_state
-	$BoardDisplay.local = local
-	$BoardDisplay.pov = pov
-	$BoardDisplay.populate_grid(current_state)
+	current_state = current_state.apply_notation(notation)
 	update()
 
 func update() -> void:
@@ -34,20 +30,22 @@ func update() -> void:
 	if can_move():
 		if current_state.turn == 0:
 			if current_state.get_current_player() == LOJE:
+				$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. loje piece selection"
 				var home_row_types: Array[SpaceType] = [SpaceType.LOJE, SpaceType.LOJE, SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE]
 				$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(LOJE), 5, home_row_types, Callable(self, "on_loje_pieces_selected"), "select loje starting pieces")
 			elif current_state.get_current_player() == PIMEJA:
+				$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. pimeja piece selection"
 				var home_row_types: Array[SpaceType] = [SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA]
 				$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(PIMEJA), 5, home_row_types, Callable(self, "on_pimeja_pieces_selected"), "select pimeja starting pieces")
 		elif local:
-			$InfoPanel/InfoDisplay/GameInfo/Label.text = "loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn"
+			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + ("loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn")
 		else:
-			$InfoPanel/InfoDisplay/GameInfo/Label.text = "your turn"
+			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". your turn"
 	elif current_state.complete:
 				var scores = current_state.get_scores()
 				$InfoPanel/InfoDisplay/GameInfo/Label.text = "game over (" + str(scores[0]) + " - " + str(scores[1]) + ")"
 	else:
-		$InfoPanel/InfoDisplay/GameInfo/Label.text = "loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn"
+		$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + ("loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn")
 	$BoardDisplay.update_grid(current_state)
 	$BoardDisplay.can_move = can_move()
 	$InfoPanel/InfoDisplay/GameInfo/PassButton.disabled = not can_move() or current_state.turn == 0
@@ -132,7 +130,11 @@ func get_notation() -> String:
 	return notation
 
 func on_notation_button_pressed():
+	if $InfoPanel/InfoDisplay/DevPanel/LineEdit.text[0] == "0":
+		current_state = BoardState.get_starting_board_state()
+		first_state = current_state
 	current_state = current_state.apply_notation($InfoPanel/InfoDisplay/DevPanel/LineEdit.text)
+	$InfoPanel/InfoDisplay/DevPanel/LineEdit.text = ""
 	update()
 
 func on_export_game_button_pressed():
