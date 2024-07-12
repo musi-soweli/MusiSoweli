@@ -128,7 +128,7 @@ func get_notation() -> String:
 		state = state.next_state
 	if state.complete:
 		var scores = state.get_scores()
-		notation += str(scores[0]) + str(scores[1]) #TODO: Add parenthesis if player resigns
+		notation += str(scores[0]) + "-" + str(scores[1]) #TODO: Add parenthesis if player resigns
 	return notation
 
 func on_notation_button_pressed():

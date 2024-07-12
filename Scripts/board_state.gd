@@ -135,16 +135,13 @@ static func from(board_state: BoardState) -> BoardState: # TODO: There has to be
 #0. AASWW KKSUU
 #0. AASWW ASAWW 1. w6k4 p0k2
 func apply_notation(notation: String) -> BoardState:
-	print(notation)
 	if len(notation) == 0:
 		return
 	var slice : String = notation.get_slice(" ", 0)
 	notation = notation.erase(0, len(slice)+1)
-	print(slice)
 	while slice.contains("."):
 		slice = notation.get_slice(" ", 0) #Skip the numbers
 		notation = notation.erase(0, len(slice)+1)
-		print(slice)
 	#TODO: Change movements to be the same as the official notation
 	if slice.is_valid_int(): #Check if kili number is being specified
 		kili_amount = int(slice)
@@ -152,15 +149,14 @@ func apply_notation(notation: String) -> BoardState:
 			k = kili_amount
 		slice = notation.get_slice(" ", 0) #If it is, change kili amounts and move on
 		notation = notation.erase(0, len(slice)+1)
-		print(slice)
 	if slice == "Pass":
 		move = PassAction.new()
 	elif slice == slice.to_upper(): #Check if the section is all uppercase (Meaning it is a piece selection)
-		var pieces : Array[GamePiece] = []
-		for char in slice:
-			pieces.append(pop_unused_piece_from_notation(get_current_player(), char))#TODO: Checking if this is null, throwing error
-		print(pieces)
-		move = PieceSelectionAction.new(pieces, get_current_player())
+		if not has_player_selected_pieces(get_current_player()):
+			var pieces : Array[GamePiece] = []
+			for char in slice:
+				pieces.append(pop_unused_piece_from_notation(get_current_player(), char))#TODO: Checking if this is null, throwing error
+			move = PieceSelectionAction.new(pieces, get_current_player())
 	elif slice.contains("="):#Check if the section contains = (Meaning it is a promotion)
 		var kili: GamePiece = get_space_from_notation(slice.substr(0,2)).pieces[0]
 		if kili is Kili:
@@ -209,8 +205,8 @@ func set_unused_pieces_for_player(player: int, pieces: Array[GamePiece]) -> void
 func add_unused_piece_for_player(player: int, piece: GamePiece) -> void:
 	unused_pieces[player_order.find(player)].append(piece)
 
-func get_are_pieces_selected_for_player(player: int) -> bool:
+func has_player_selected_pieces(player: int) -> bool:
 	return pieces_selected[player_order.find(player)]
 
-func set_are_pieces_selected_for_player(player: int, selected: bool) -> void:
+func set_has_player_selected_pieces(player: int, selected: bool) -> void:
 	pieces_selected[player_order.find(player)] = selected

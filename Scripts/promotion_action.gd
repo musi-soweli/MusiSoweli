@@ -15,4 +15,4 @@ func execute(board_state: BoardState) -> BoardState:
 	return new_state
 
 func get_notation() -> String:
-	return BoardState.column_names[kili.position.column] + str(kili.position.row) + "=" + new_piece.symbol
+	return BoardState.column_names[kili.position.column] + str(7-kili.position.row) + "=" + new_piece.symbol
