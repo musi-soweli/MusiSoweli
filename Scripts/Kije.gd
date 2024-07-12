@@ -1,14 +1,16 @@
 class_name Kije extends GamePiece
 
-var TEXTURE_LOJE: Texture2D = preload ("res://assets/kije_loje.png")
-var TEXTURE_PIMEJA: Texture2D = preload ("res://assets/kije_pimeja.png")
-
 func _init(_position: BoardSpace, _owner: int):
 	name = "kijetesantakalu"
 	symbol = "U"
 	position = _position
 	owner = _owner
-	textures = [TEXTURE_LOJE, TEXTURE_PIMEJA]
+	textures = []
+	for i in range(4):
+		var t = AtlasTexture.new()
+		t.atlas = GamePiece.TEXTURE
+		t.region = Rect2(300, 100+i*100, 100, 100)
+		textures.append(t)
 
 func get_name():
 	return name + " " + COLORS[owner]

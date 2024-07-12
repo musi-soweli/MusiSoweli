@@ -3,10 +3,16 @@
 [ext_resource type="Script" path="res://scripts/board_display.gd" id="1_hkdfn"]
 [ext_resource type="Script" path="res://scripts/game_controller.gd" id="1_ts2xv"]
 [ext_resource type="Script" path="res://scripts/space_info_display.gd" id="2_7bigf"]
-[ext_resource type="Texture2D" uid="uid://tyryvumg83va" path="res://Assets/empty_dark.png" id="3_avmrm"]
-[ext_resource type="Texture2D" uid="uid://3lxg2bj76a4c" path="res://Assets/kili.png" id="4_obh3j"]
-[ext_resource type="Texture2D" uid="uid://cjy4lyy37wcuh" path="res://Assets/pipi_loje.png" id="5_msevv"]
 [ext_resource type="Script" path="res://scripts/piece_selection_display.gd" id="6_6rbbu"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7mfwu"]
+load_path = "res://.godot/imported/empty_dark.png-daf928d4a0760f67799be37b3d17b1d8.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dmm7h"]
+load_path = "res://.godot/imported/kili.png-1a6a7276c2793de9d26b7819de4a3216.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6edya"]
+load_path = "res://.godot/imported/pipi_loje.png-a39ff178e409179f923b786721ac6499.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihssm"]
 bg_color = Color(0.0431373, 0.372549, 0.215686, 1)
@@ -70,7 +76,7 @@ offset_top = 5.0
 offset_right = 50.0
 offset_bottom = 105.0
 grow_horizontal = 2
-texture = ExtResource("3_avmrm")
+texture = SubResource("CompressedTexture2D_7mfwu")
 expand_mode = 1
 stretch_mode = 5
 
@@ -87,7 +93,7 @@ offset_right = 50.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_obh3j")
+texture = SubResource("CompressedTexture2D_dmm7h")
 stretch_mode = 5
 
 [node name="TopPiece" type="TextureRect" parent="InfoPanel/InfoDisplay/SpaceInfo/Space"]
@@ -103,7 +109,7 @@ offset_right = 50.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_msevv")
+texture = SubResource("CompressedTexture2D_6edya")
 stretch_mode = 5
 
 [node name="Title" type="Label" parent="InfoPanel/InfoDisplay/SpaceInfo"]
@@ -145,7 +151,7 @@ offset_top = 5.0
 offset_right = 50.0
 offset_bottom = 105.0
 grow_horizontal = 2
-texture = ExtResource("5_msevv")
+texture = SubResource("CompressedTexture2D_6edya")
 stretch_mode = 5
 
 [node name="Title" type="Label" parent="InfoPanel/InfoDisplay/TopPieceInfo"]
@@ -187,7 +193,7 @@ offset_top = 5.0
 offset_right = 50.0
 offset_bottom = 105.0
 grow_horizontal = 2
-texture = ExtResource("4_obh3j")
+texture = SubResource("CompressedTexture2D_dmm7h")
 stretch_mode = 5
 
 [node name="Title" type="Label" parent="InfoPanel/InfoDisplay/BottomPieceInfo"]

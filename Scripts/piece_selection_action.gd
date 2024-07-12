@@ -14,15 +14,11 @@ func execute(board_state: BoardState) -> BoardState:
 	var n: Array[GamePiece] = []
 	new_state.set_unused_pieces_for_player(player, n)
 	new_state.set_has_player_selected_pieces(player, true)
-	#TODO: Multiplayer compatibility
-	if player == LOJE:
-		for i in range(len(pieces)):
-			var new_piece = pieces[i].get_copy(new_state.spaces[6][2 + i])
-			new_state.spaces[6][2 + i].pieces.append(new_piece)
-	elif player == PIMEJA:
-		for i in range(len(pieces)):
-			var new_piece = pieces[i].get_copy(new_state.spaces[0][6 - i])
-			new_state.spaces[0][6 - i].pieces.append(new_piece)
+	
+	for i in range(len(pieces)):
+		var position = new_state.starting_positions[new_state.player_order.find(player)][i]
+		var new_piece = pieces[i].get_copy(new_state.spaces[position.y][position.x])
+		new_state.spaces[position.y][position.x].pieces.append(new_piece)
 
 	return new_state
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t2mp77hatx5h"
-path="res://.godot/imported/pipi_pimeja.png-efa0ef6a764880b52490e746153ec11c.ctex"
+uid="uid://d18r14oog0v33"
+path="res://.godot/imported/spaces.png-303a7baad7bc597233043032cb359206.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/pipi_pimeja.png"
-dest_files=["res://.godot/imported/pipi_pimeja.png-efa0ef6a764880b52490e746153ec11c.ctex"]
+source_file="res://Assets/spaces.png"
+dest_files=["res://.godot/imported/spaces.png-303a7baad7bc597233043032cb359206.ctex"]
 
 [params]
 

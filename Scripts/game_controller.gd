@@ -3,13 +3,19 @@ extends Control
 
 enum {LASO, LOJE, PIMEJA, JELO, WALO}
 
+static var player_names = ["neutral", "loje", "pimeja", "jelo", "walo"]
+
 var current_state: BoardState
 var first_state: BoardState
 var local: bool = true
 var pov: int = LOJE
 
 func _ready() -> void:
-	current_state = BoardState.get_starting_board_state()
+	current_state = BoardState.get_starting_board_state_4()
+	var player_order : Array[int] = [LOJE, JELO, PIMEJA, WALO]
+	current_state.player_order = player_order
+	var pieces_selected : Array[bool] = [false, false, false, false]
+	current_state.pieces_selected = pieces_selected
 	first_state = current_state
 	$BoardDisplay.local = local
 	$BoardDisplay.pov = pov
@@ -29,23 +35,20 @@ func update() -> void:
 	$PieceSelectionDisplay.disappear()
 	if can_move():
 		if current_state.turn == 0:
-			if current_state.get_current_player() == LOJE:
-				$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. loje piece selection"
-				var home_row_types: Array[SpaceType] = [SpaceType.LOJE, SpaceType.LOJE, SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE]
-				$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(LOJE), 5, home_row_types, Callable(self, "on_loje_pieces_selected"), "select loje starting pieces")
-			elif current_state.get_current_player() == PIMEJA:
-				$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. pimeja piece selection"
-				var home_row_types: Array[SpaceType] = [SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA]
-				$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(PIMEJA), 5, home_row_types, Callable(self, "on_pimeja_pieces_selected"), "select pimeja starting pieces")
+			$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. "+player_names[current_state.get_current_player()]+" piece selection"
+			var home_row_types: Array[SpaceType] = []
+			for position in current_state.starting_positions[current_state.player_order.find(current_state.get_current_player())]:
+				home_row_types.append(current_state.spaces[position.y][position.x].type)
+			$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(current_state.get_current_player()), len(home_row_types), home_row_types, Callable(self, "on_pieces_selected"), "select "+player_names[current_state.get_current_player()]+" starting pieces")
 		elif local:
-			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + ("loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn")
+			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + player_names[current_state.get_current_player()] + "'s turn"
 		else:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". your turn"
 	elif current_state.complete:
 				var scores = current_state.get_scores()
 				$InfoPanel/InfoDisplay/GameInfo/Label.text = "game over (" + str(scores[0]) + " - " + str(scores[1]) + ")"
 	else:
-		$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + ("loje's turn" if current_state.get_current_player() == LOJE else "pimeja's turn")
+		$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + player_names[current_state.get_current_player()] + "'s turn"
 	$BoardDisplay.update_grid(current_state)
 	$BoardDisplay.can_move = can_move()
 	$InfoPanel/InfoDisplay/GameInfo/PassButton.disabled = not can_move() or current_state.turn == 0
@@ -54,13 +57,7 @@ func update() -> void:
 	$InfoPanel/InfoDisplay/GameInfo/PreviousMoveButton.disabled = current_state.previous_state == null
 	$InfoPanel/InfoDisplay/SpaceInfo.visible = not $PieceSelectionDisplay.visible
 
-func on_loje_pieces_selected(pieces: Array[GamePiece]) -> void:
-	var selection = PieceSelectionAction.new(pieces, current_state.get_current_player())
-	current_state.move = selection
-	current_state = selection.execute(current_state).progress_turn()
-	update()
-
-func on_pimeja_pieces_selected(pieces: Array[GamePiece]) -> void:
+func on_pieces_selected(pieces: Array[GamePiece]) -> void:
 	var selection = PieceSelectionAction.new(pieces, current_state.get_current_player())
 	current_state.move = selection
 	current_state = selection.execute(current_state).progress_turn()

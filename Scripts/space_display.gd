@@ -5,16 +5,32 @@ signal piece_selected(space: BoardSpace)
 signal move_selected(move: Action)
 signal empty_selected()
 
-const EMPTY: Texture2D = preload ("res://assets/empty.png")
-const MOVE: Texture2D = preload ("res://assets/tawa.png")
-const DOUBLE_MOVE: Texture2D = preload ("res://assets/tawa_mute.png")
-const CAPTURE: Texture2D = preload ("res://assets/utala.png")
-const DOUBLE_CAPTURE: Texture2D = preload ("res://assets/utala_mute.png")
+static var TEXTURES = preload("res://Assets/symbols.png")
+static var EMPTY: Texture2D = preload ("res://assets/empty.png")
+static var MOVE: Texture2D
+static var DOUBLE_MOVE: Texture2D
+static var CAPTURE: Texture2D
+static var DOUBLE_CAPTURE: Texture2D
 
 var space: BoardSpace
 var move: Action
 var moveable: bool = false
 var selectable: bool = true
+
+func _init():
+	if MOVE == null:
+		MOVE = AtlasTexture.new()
+		MOVE.atlas = TEXTURES
+		MOVE.region = Rect2(0, 0, 100, 100)
+		DOUBLE_MOVE = AtlasTexture.new()
+		DOUBLE_MOVE.atlas = TEXTURES
+		DOUBLE_MOVE.region = Rect2(100, 0, 100, 100)
+		CAPTURE = AtlasTexture.new()
+		CAPTURE.atlas = TEXTURES
+		CAPTURE.region = Rect2(200, 0, 100, 100)
+		DOUBLE_CAPTURE = AtlasTexture.new()
+		DOUBLE_CAPTURE.atlas = TEXTURES
+		DOUBLE_CAPTURE.region = Rect2(300, 0, 100, 100)
 
 func set_space(_space):
 	space = _space

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iyk0p5p5eqva"
-path="res://.godot/imported/kala_pimeja.png-a5d92fbb672941f3338062be59db82b0.ctex"
+uid="uid://djhifd3u1ys1e"
+path="res://.godot/imported/pieces.png-1494960a0efa6e178ad4cf5377c00682.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/kala_pimeja.png"
-dest_files=["res://.godot/imported/kala_pimeja.png-a5d92fbb672941f3338062be59db82b0.ctex"]
+source_file="res://Assets/pieces.png"
+dest_files=["res://.godot/imported/pieces.png-1494960a0efa6e178ad4cf5377c00682.ctex"]
 
 [params]
 

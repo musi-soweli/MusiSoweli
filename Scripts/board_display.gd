@@ -37,16 +37,31 @@ func populate_grid(board_state: BoardState):
 			add_child(display)
 
 func _process(delta):
-	size.x = (size.y / 7.0) * 9.0
+	#size.x = (size.y / 7.0) * 9.0
+	size.x = size.y
 
 func update_grid(board_state: BoardState):
 	pivot_offset = Vector2(size.x * 0.5, size.y * 0.5)
-	rotation_degrees = 180 if pov == PIMEJA else 0
+	if pov == PIMEJA:
+		rotation_degrees = 180
+	elif pov == JELO:
+		rotation_degrees = 90
+	elif pov == WALO:
+		rotation_degrees = 270
+	else:
+		rotation_degrees = 0
 
 	for i: int in range(get_child_count()):
 		get_child(i).set_space(board_state.spaces[i / 9][i % 9])
 		get_child(i).pivot_offset = Vector2(get_child(i).size.x * 0.5, get_child(i).size.y * 0.5)
-		get_child(i).rotation_degrees = 180 if pov == PIMEJA else 0
+		if pov == PIMEJA:
+			get_child(i).rotation_degrees = 180
+		elif pov == JELO:
+			get_child(i).rotation_degrees = 270
+		elif pov == WALO:
+			get_child(i).rotation_degrees = 90
+		else:
+			get_child(i).rotation_degrees = 0
 
 #func _ready():
 	#current_state = BoardState.get_starting_board_state()

@@ -1,13 +1,14 @@
 class_name Kili extends GamePiece
 
-var TEXTURE_KILI: Texture2D = preload ("res://assets/kili.png")
-
 func _init(_position: BoardSpace):
 	name = "kili"
 	symbol = "I"
 	position = _position
 	owner = 0
-	textures = [TEXTURE_KILI]
+	var t = AtlasTexture.new()
+	t.atlas = GamePiece.TEXTURE
+	t.region = Rect2(0, 0, 100, 100)
+	textures = [t]
 
 func get_texture():
 	return textures[0]

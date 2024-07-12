@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://215lmfk0t0qt"
-path="res://.godot/imported/tomo_pimeja_light.png-7a87022a60e611809d7e46d05ce45503.ctex"
+uid="uid://bayxr1rjoxs4i"
+path="res://.godot/imported/symbols.png-e849c860e97fc25b3b73b000aa5a32a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/tomo_pimeja_light.png"
-dest_files=["res://.godot/imported/tomo_pimeja_light.png-7a87022a60e611809d7e46d05ce45503.ctex"]
+source_file="res://Assets/symbols.png"
+dest_files=["res://.godot/imported/symbols.png-e849c860e97fc25b3b73b000aa5a32a9.ctex"]
 
 [params]
 

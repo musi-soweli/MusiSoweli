@@ -4,6 +4,8 @@ enum {LASO, LOJE, PIMEJA, JELO, WALO}
 
 const COLORS: Array[String] = ["laso", "loje", "pimeja", "jelo", "walo"]
 
+static var TEXTURE = preload("res://Assets/pieces.png")
+
 var name: String
 var symbol: String
 var owner: int
@@ -12,11 +14,7 @@ var aquatic: bool = false
 var textures: Array[Resource]
 
 func get_texture():
-	if owner == LOJE:
-		return textures[0]
-	else:#elif owner == PIMEJA:
-		return textures[1]
-	#return textures[owner - 1]
+	return textures[owner - 1]
 
 func get_potential_moves(_current_turn: int, _carry: bool) -> Array[Action]:
 	return []
