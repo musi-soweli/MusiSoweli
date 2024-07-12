@@ -105,4 +105,5 @@ func on_move_selected(move: Action):
 	if can_move:
 		for child in get_children():
 			child.set_move(null)
+		
 		emit_signal("move_selected", move)

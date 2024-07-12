@@ -14,6 +14,7 @@ var pieces_selected : Array[bool] = [false, false]
 var current_player_num : int
 var previous_state: BoardState = null
 var next_state: BoardState = null#TODO: Might not wanna settle with this in the end
+var move: Action
 
 @export var kili_amount: int = 4
 
@@ -131,7 +132,71 @@ static func from(board_state: BoardState) -> BoardState: # TODO: There has to be
 	new_board.previous_state = board_state
 	new_board.complete = board_state.complete
 	return new_board
+#0. AASWW KKSUU
+#0. AASWW ASAWW 1. w6k4 p0k2
+func apply_notation(notation: String) -> BoardState:
+	print(notation)
+	if len(notation) == 0:
+		return
+	var slice : String = notation.get_slice(" ", 0)
+	notation = notation.erase(0, len(slice)+1)
+	print(slice)
+	while slice.contains("."):
+		slice = notation.get_slice(" ", 0) #Skip the numbers
+		notation = notation.erase(0, len(slice)+1)
+		print(slice)
+	#TODO: Change movements to be the same as the official notation
+	if slice.is_valid_int(): #Check if kili number is being specified
+		kili_amount = int(slice)
+		for k in kili_amounts:
+			k = kili_amount
+		slice = notation.get_slice(" ", 0) #If it is, change kili amounts and move on
+		notation = notation.erase(0, len(slice)+1)
+		print(slice)
+	if slice == "Pass":
+		move = PassAction.new()
+	elif slice == slice.to_upper(): #Check if the section is all uppercase (Meaning it is a piece selection)
+		var pieces : Array[GamePiece] = []
+		for char in slice:
+			pieces.append(pop_unused_piece_from_notation(get_current_player(), char))#TODO: Checking if this is null, throwing error
+		print(pieces)
+		move = PieceSelectionAction.new(pieces, get_current_player())
+	elif slice.contains("="):#Check if the section contains = (Meaning it is a promotion)
+		var kili: GamePiece = get_space_from_notation(slice.substr(0,2)).pieces[0]
+		if kili is Kili:
+			move = PromotionAction.new(kili)
+			move.new_piece = pop_unused_piece_from_notation(get_current_player(), slice[-1])#TODO: Checking if this is null, throwing error
+		#TODO: Throw error
+	else:
+		var old_pos: BoardSpace = get_space_from_notation(slice.substr(0, 2))#TODO: change this to be piece selection instead of position i guess
+		slice = slice.erase(0, 2)
+		var capture: bool = false
+		if slice[0] == "x":
+			capture = true
+			slice = slice.erase(0, 1)
+		var new_pos : BoardSpace = get_space_from_notation(slice.substr(0, 2))
+		var carry: bool = false
+		if slice[-1] == "+":
+			carry = true
+		move = MovementAction.new(old_pos, new_pos, carry, capture)#TODO: just checking for error and stuff
+	if move != null:
+		next_state = move.execute(self).progress_turn().check_complete()
+		if len(notation) > 0 and not next_state.complete:
+			return next_state.apply_notation(notation)
+		return next_state
+	return self
 
+func get_space_from_notation(notation: String) -> BoardSpace:
+	return spaces[int(notation[1])][column_names.find(notation[0])]
+
+func pop_unused_piece_from_notation(player: int, notation: String) -> GamePiece:
+	for i in len(get_unused_pieces_for_player(player)):
+		if get_unused_pieces_for_player(player)[i].symbol == notation:
+			return get_unused_pieces_for_player(player).pop_at(i)
+		elif get_unused_pieces_for_player(player)[i].get_flipped().symbol == notation:
+			return get_unused_pieces_for_player(player).pop_at(i).get_flipped()
+	return null
+	
 func get_current_player() -> int:
 	return player_order[current_player_num]
 

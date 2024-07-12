@@ -2,11 +2,13 @@ class_name MovementAction extends Action
 
 var old_position: BoardSpace
 var new_position: BoardSpace
+var piece_symbol: String = ""
 var carries: bool = false
 var captures: bool = false
 
 func _init(_old_position: BoardSpace, _new_position: BoardSpace, _carries: bool, _captures):
 	old_position = _old_position
+	piece_symbol = old_position.pieces[-1].symbol
 	new_position = _new_position
 	carries = _carries
 	captures = _captures
@@ -36,3 +38,12 @@ func execute(board_state: BoardState) -> BoardState:
 				new_state.kili_amounts[k] -= 1
 
 	return new_state
+
+func get_notation() -> String: #TODO: change this and the decoder to be how notation actually works
+	#var s : String = BoardState.column_names[old_position.column] + str(old_position.row) if piece_symbol == "P" else piece_symbol
+	var s : String = BoardState.column_names[old_position.column] + str(old_position.row)
+	s += "x" if captures else ""
+	s += BoardState.column_names[new_position.column] + str(new_position.row)
+	s += "+" if carries else ""
+	#TODO: Add ^ if it carries
+	return s

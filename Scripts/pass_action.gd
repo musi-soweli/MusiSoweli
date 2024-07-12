@@ -1,8 +1,9 @@
 class_name PassAction extends Action
 
 func get_notation() -> String:
-	return ""
+	return "Pass"
 
 func execute(board_state: BoardState) -> BoardState:
-	board_state.passes += 1
-	return board_state
+	var n: BoardState = BoardState.from(board_state)
+	n.passes += 1
+	return n

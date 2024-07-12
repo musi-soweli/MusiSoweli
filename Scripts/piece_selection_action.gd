@@ -25,3 +25,9 @@ func execute(board_state: BoardState) -> BoardState:
 			new_state.spaces[0][6 - i].pieces.append(new_piece)
 
 	return new_state
+
+func get_notation() -> String:
+	var s: String = ""
+	for p in pieces:
+		s += p.symbol
+	return s
