@@ -2,28 +2,32 @@ class_name PieceSelectionAction extends Action
 
 enum {LASO, LOJE, PIMEJA, JELO, WALO}
 
-var pieces: Array[GamePiece]
-var player: int
+static var LINE_NAME = "PLACE"
 
-func _init(_pieces: Array[GamePiece], _player: int):
+var pieces: String #TODO: Piece Type Refactor
+
+func _init(_player: int, _pieces: String):
 	pieces = _pieces
 	player = _player
 
 func execute(board_state: BoardState) -> BoardState:
-	var new_state = BoardState.from(board_state)
-	var n: Array[GamePiece] = []
-	new_state.set_unused_pieces_for_player(player, n)
+	var new_state = board_state.get_copy()
 	new_state.set_has_player_selected_pieces(player, true)
-	
+	var positions: Array[BoardSpace] = new_state.get_starting_positions(player)
 	for i in range(len(pieces)):
-		var position = new_state.starting_positions[new_state.player_order.find(player)][i]
-		var new_piece = pieces[i].get_copy(new_state.spaces[position.y][position.x])
-		new_state.spaces[position.y][position.x].pieces.append(new_piece)
+		var new_piece = new_state.pop_unused_piece_from_notation(player, pieces[i]).get_copy(new_state.spaces[positions[i].row][positions[i].column])
+		new_state.spaces[positions[i].row][positions[i].column].pieces.append(new_piece)
+	
+	for k in len(new_state.kasi_spaces):
+		if len(new_state.kasi_spaces[k].pieces) == 0:
+			if new_state.kili_amounts[k] > 0:
+				new_state.kasi_spaces[k].pieces.append(Kili.new(new_state.kasi_spaces[k]))
+				new_state.kili_amounts[k] -= 1
 
 	return new_state
 
 func get_notation() -> String:
-	var s: String = ""
-	for p in pieces:
-		s += p.symbol
-	return s
+	return pieces
+
+func get_line() -> String:
+	return LINE_NAME + " " + str(player) + " " + pieces

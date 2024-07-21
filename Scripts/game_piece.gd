@@ -5,6 +5,15 @@ enum {LASO, LOJE, PIMEJA, JELO, WALO}
 const COLORS: Array[String] = ["laso", "loje", "pimeja", "jelo", "walo"]
 
 static var TEXTURE = preload("res://Assets/pieces.png")
+static var TYPES: Dictionary = {
+	"I": Kili,
+	"P": Pipi,
+	"W": Waso,
+	"U": Kije,
+	"A": Akesi,
+	"K": Kala,
+	"S": Soweli
+}
 
 var name: String
 var symbol: String
@@ -56,12 +65,15 @@ func add_moves_from_spaces(spaces : Array[BoardSpace], carry : bool, move : bool
 		if move and can_move_onto_space(pos):
 			if carry:
 				if len(position.pieces) > 1 and len(pos.pieces) == 0:
-					moves.append(MovementAction.new(position, pos, true, false))
+					moves.append(MovementAction.new(owner, position.row, position.column, pos.row, pos.column, true, false))
 			else:
-				moves.append(MovementAction.new(position, pos, false, false))
+				moves.append(MovementAction.new(owner, position.row, position.column, pos.row, pos.column, false, false))
 		elif capture and can_capture_onto_space(pos):
 			if carry:
 				if len(position.pieces) > 1 and len(pos.pieces) == 1:
-					moves.append(MovementAction.new(position, pos, true, true))
+					moves.append(MovementAction.new(owner, position.row, position.column, pos.row, pos.column, true, true))
 			else:
-				moves.append(MovementAction.new(position, pos, false, true))
+				moves.append(MovementAction.new(owner, position.row, position.column, pos.row, pos.column, false, true))
+
+static func from_notation(_notation: String, _position: BoardSpace, _owner: int) -> GamePiece:
+	return TYPES[_notation].new(_position, _owner)

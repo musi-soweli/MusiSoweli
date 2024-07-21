@@ -1,0 +1,5 @@
+KILI 2
+KASI 4
+BOARD ttppPpptt ttppppptt ooooooooo okotttoko ooooooooo ttllllltt ttllLlltt
+STARTING_PIECES _________ __PPPPP__ _________ _________ _________ __PPPPP__ _________
+SELECTABLE_PIECES AASWW

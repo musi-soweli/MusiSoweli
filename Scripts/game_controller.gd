@@ -11,25 +11,15 @@ var local: bool = true
 var pov: int = LOJE
 
 func create(num_players: int, num_kili: int, _local: bool) -> void:
-	if num_players == 4:
-		current_state = BoardState.get_starting_board_state_4()
-		var player_order : Array[int] = [LOJE, JELO, PIMEJA, WALO]
-		current_state.player_order = player_order
-		var pieces_selected : Array[bool] = [false, false, false, false]
-		current_state.pieces_selected = pieces_selected
-	elif num_players == 3:
-		current_state = BoardState.get_starting_board_state_3()
-		var player_order : Array[int] = [LOJE, JELO, PIMEJA]
-		current_state.player_order = player_order
-		var pieces_selected : Array[bool] = [false, false, false]
-		current_state.pieces_selected = pieces_selected
-	else:
-		current_state = BoardState.get_starting_board_state()
-		var player_order : Array[int] = [LOJE, PIMEJA]
-		current_state.player_order = player_order
-		var pieces_selected : Array[bool] = [false, false]
-		current_state.pieces_selected = pieces_selected
-	current_state.kili_amount = num_kili
+	var space_types = BoardState.default_space_types
+	var starting_pieces = BoardState.default_starting_pieces
+	if num_players == 3:
+		space_types = BoardState.default_space_types_3
+		starting_pieces = BoardState.default_starting_pieces_3
+	elif num_players == 4:
+		space_types = BoardState.default_space_types_4
+		starting_pieces = BoardState.default_starting_pieces_4
+	current_state = BoardState.new(num_players, num_kili, space_types, true, starting_pieces, "AASWW")
 	first_state = current_state
 	local = _local
 	$BoardDisplay.local = local
@@ -38,7 +28,7 @@ func create(num_players: int, num_kili: int, _local: bool) -> void:
 	update()
 
 func load_notation (notation: String) -> void:
-	current_state = BoardState.get_starting_board_state()
+	current_state = BoardState.new()
 	first_state = current_state
 	current_state = current_state.apply_notation(notation)
 	update()
@@ -51,9 +41,7 @@ func update() -> void:
 	if can_move():
 		if current_state.turn == 0:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = "0. "+player_names[current_state.get_current_player()]+" piece selection"
-			var home_row_types: Array[SpaceType] = []
-			for pos in current_state.starting_positions[current_state.player_order.find(current_state.get_current_player())]:
-				home_row_types.append(current_state.spaces[pos.y][pos.x].type)
+			var home_row_types: Array[SpaceType] = current_state.get_starting_position_types(current_state.get_current_player())
 			$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(current_state.get_current_player()), len(home_row_types), home_row_types, Callable(self, "on_pieces_selected"), "select "+player_names[current_state.get_current_player()]+" starting pieces")
 		elif local:
 			$InfoPanel/InfoDisplay/GameInfo/Label.text = str(current_state.turn) + ". " + player_names[current_state.get_current_player()] + "'s turn"
@@ -73,7 +61,10 @@ func update() -> void:
 	$InfoPanel/InfoDisplay/SpaceInfo.visible = not $PieceSelectionDisplay.visible
 
 func on_pieces_selected(pieces: Array[GamePiece]) -> void:
-	var selection = PieceSelectionAction.new(pieces, current_state.get_current_player())
+	var p = ""
+	for piece in pieces:
+		p += piece.symbol#TODO: Piece Type Refactor
+	var selection = PieceSelectionAction.new(current_state.get_current_player(), p)
 	current_state.move = selection
 	current_state = selection.execute(current_state).progress_turn()
 	update()
@@ -85,11 +76,11 @@ func on_board_display_move_selected(move: Action) -> void:
 
 func on_board_display_promotion(move: PromotionAction) -> void:
 	$BoardDisplay.can_move = false
-	var ht: Array[SpaceType] = [move.kili.position.type]
+	var ht: Array[SpaceType] = [current_state.spaces[move.column][move.row].type]
 	$PieceSelectionDisplay.display_pieces(current_state.get_unused_pieces_for_player(current_state.get_current_player()), 1, ht, Callable(self, "on_promotion_confirmed").bind(move), "select promotion or cancel", true)
 
 func on_promotion_confirmed(pieces: Array[GamePiece], move: PromotionAction) -> void:
-	move.new_piece = pieces[0]
+	move.new_piece_type = pieces[0].symbol #TODO Piece Type Refactor
 	current_state.move = move
 	current_state = move.execute(current_state).progress_turn().check_complete()
 	update()
@@ -98,8 +89,8 @@ func on_piece_selection_display_cancelled() -> void:
 	$BoardDisplay.can_move = can_move()
 
 func on_pass_button_pressed() -> void:
-	if can_move() and current_state.get_are_pieces_selected_for_player(current_state.get_current_player()):
-		var move = PassAction.new()
+	if can_move() and current_state.has_player_selected_pieces(current_state.get_current_player()):
+		var move = PassAction.new(current_state.get_current_player())
 		current_state.move = move
 		current_state = move.execute(current_state).progress_turn().check_complete()
 		$BoardDisplay.update_grid(current_state)
@@ -143,7 +134,7 @@ func get_notation() -> String:
 
 func on_notation_button_pressed():
 	if $InfoPanel/InfoDisplay/DevPanel/LineEdit.text[0] == "0":
-		current_state = BoardState.get_starting_board_state()
+		current_state = BoardState.new()
 		first_state = current_state
 	current_state = current_state.apply_notation($InfoPanel/InfoDisplay/DevPanel/LineEdit.text)
 	$InfoPanel/InfoDisplay/DevPanel/LineEdit.text = ""
@@ -163,9 +154,25 @@ func on_export_move_button_pressed():
 	else:
 		print("No previous move to export.")
 
+func on_export_line_button_pressed():
+	print("Previous Move Line Notation:")
+	if current_state.previous_state != null:
+		if current_state.previous_state.move != null:
+			print(current_state.previous_state.move.get_line())
+		else:
+			print("No previous move to export.")
+	else:
+		print("No previous move to export.")
+
 func on_toggle_local_button_pressed():
 	local = not local
 	$InfoPanel/InfoDisplay/DevPanel/ToggleLocalButton.text = "make not local" if local else "make local"
 	$BoardDisplay.local = local
 	$BoardDisplay.pov = pov
 	update()
+
+func on_line_button_pressed():
+	if len($InfoPanel/InfoDisplay/DevPanel/LineEdit.text) > 0:
+		current_state = current_state.apply_lines($InfoPanel/InfoDisplay/DevPanel/LineEdit.text.split("\n"))
+		$InfoPanel/InfoDisplay/DevPanel/LineEdit.text = ""
+		update()

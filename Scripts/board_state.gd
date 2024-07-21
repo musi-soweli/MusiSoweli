@@ -1,43 +1,97 @@
 class_name BoardState
 
 enum {LASO, LOJE, PIMEJA, JELO, WALO}
-
-var spaces: Array[Array]
-var pipi_positions: Array[Array]
-var starting_positions: Array[Array]
-var kasi_spaces: Array[BoardSpace] = []
+#These vars are set in _init
+var player_order : Array[int]
+var pieces_selected : Array[bool]
+var kili_amount: int
 var kili_amounts: Array[int] = []
-var unused_pieces: Array[Array] = []
+var space_types_string
+var starting_pieces_string
+var spaces: Array[Array]
+var kasi_spaces: Array[BoardSpace] = []
+var unused_pieces: Array[Array]
+#These vars need to be copied over when the state is copied
 var complete: bool = false
-var turn: int
+var turn: int = 0
 var passes: int = 0
-var player_order : Array[int] = [LOJE, PIMEJA]
-var pieces_selected : Array[bool] = [false, false]
-var current_player_num : int
+var current_player_num : int = 0
+#These vars are set for each state
 var previous_state: BoardState = null
 var next_state: BoardState = null#TODO: Might not wanna settle with this in the end
-var move: Action
-
-@export var kili_amount: int = 4
+var move: Action = null
+#const starting_pieces_string = "_________ __PPPPP__ _________ _I_____I_ _________ __PPPPP__ _________"
 
 static var column_names = ["m", "n", "p", "t", "k", "s", "w", "l", "j"]
+static var default_space_types = "ttppPpptt ttppppptt ooooooooo okotttoko ooooooooo ttllllltt ttllLlltt"
+static var default_starting_pieces = "__#####__ __PPPPP__ _________ _________ _________ __PPPPP__ __#####__"
+static var default_space_types_3 = "WwwtttppP wwooooopp woookooop toootooot toktttkot toootooot loookoooj llooooojj LlltttjjJ"
+static var default_starting_pieces_3 = "______P## _______P# ________P _________ _________ _________ P_______P #P_____P# ##P___P##"
+static var default_space_types_4 = "WwwtttppP wwooooopp woookooop toootooot toktttkot toootooot loookoooj llooooojj LlltttjjJ"
+static var default_starting_pieces_4 = "##P___P## #P_____P# P_______P _________ _________ _________ P_______P #P_____P# ##P___P##"
 
-func _init(_current_player_num: int, _turn: int):
-	current_player_num = _current_player_num
-	turn = _turn
+func _init(number_of_players: int = 2, _kili_amount: int = 4, _space_types: String = default_space_types, add_pieces: bool = false, _starting_pieces: String = default_starting_pieces, _selectable_pieces: String = ""):#TODO: piece type refactor 
+	#Set up player order and piece selection checks
+	if number_of_players == 4:
+		player_order = [LOJE, JELO, PIMEJA, WALO]
+		pieces_selected = [false, false, false, false]
+	elif number_of_players == 3:
+		player_order = [LOJE, JELO, PIMEJA]
+		pieces_selected = [false, false, false]
+	else:
+		player_order = [LOJE, PIMEJA]
+		pieces_selected = [false, false]
+	
+	kili_amounts = []
+	kili_amount = _kili_amount
+	
+	#Assign spaces array with new spaces based on the types passed in.
+	space_types_string = _space_types
+	starting_pieces_string = _starting_pieces
+	var new_spaces: Array[Array] = []
+	var space_rows = _space_types.split(" ")
+	var piece_rows = _starting_pieces.split(" ")
+	
+	for r in range(len(space_rows)):
+		new_spaces.append([])
+
+		for c in range(len(space_rows[r])):
+			var new_space = BoardSpace.new(self, column_names[c] + str(len(space_rows) - r), SpaceType.from_notation(space_rows[r][c]), (r * len(_space_types[r]) + c) % 2 == 0, r, c)
+			new_spaces[r].append(new_space)
+			if space_rows[r][c] == "k":
+				kasi_spaces.append(new_space)
+				kili_amounts.append(kili_amount)
+			
+			if add_pieces and piece_rows[r][c] != "_" and piece_rows[r][c] != "#":
+				new_space.pieces.append(GamePiece.from_notation(piece_rows[r][c], new_space, new_space.type.owner_signature))
+	
+	spaces = new_spaces
+	
+	#Add selectable pieces from the types given
+	unused_pieces = []
+	
+	for player in player_order:
+		var pieces: Array[GamePiece] = []
+		
+		for char in _selectable_pieces:
+			pieces.append(GamePiece.from_notation(char, null, player))
+		
+		unused_pieces.append(pieces)
 
 func progress_turn() -> BoardState:
 	current_player_num += 1
+	
 	if current_player_num >= len(player_order):
 		current_player_num = 0
 		turn += 1
+		
 	return self
 
 func check_complete() -> BoardState:
 	if passes > len(player_order):
 		complete = true
 		return self
-
+	
 	for k in kili_amounts:
 		if k > 0:
 			return self
@@ -63,178 +117,44 @@ func get_scores() -> Array[int]:
 					scores[spaces[r][c].pieces[- 1].owner - 1] += 1
 	return scores
 
-static func get_starting_board_state() -> BoardState:
-	var state : BoardState = BoardState.new(0, 0)
-	state.pipi_positions = [[Vector2(2, 5), Vector2(3, 5), Vector2(4, 5), Vector2(5, 5), Vector2(6, 5)], [Vector2(2, 1), Vector2(3, 1), Vector2(4, 1), Vector2(5, 1), Vector2(6, 1)]]
-	state.starting_positions = [[Vector2(2, 6), Vector2(3, 6), Vector2(4, 6), Vector2(5, 6), Vector2(6, 6)], [Vector2(2, 0), Vector2(3, 0), Vector2(4, 0), Vector2(5, 0), Vector2(6, 0)]]
-	var new_spaces : Array[Array] = []
-	var default_types : Array[Array] = [[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TELO, SpaceType.TELO],
-	[SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN],
-	[SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN],
-	[SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN],
-	[SpaceType.TELO, SpaceType.TELO, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.TELO, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO]]
-
-	for r in range(0, 7):
-		new_spaces.append([])
-
-		for c in range(0, 9):
-			var new_space = BoardSpace.new(state, column_names[c] + str(7 - r), default_types[r][c], (r * 9 + c) % 2 == 0, r, c)
+func get_copy() -> BoardState: # TODO: There has to be a better way of doing this with deep copies this feel so inefficient
+	var new_board: BoardState = BoardState.new(len(player_order), kili_amount, space_types_string, false, starting_pieces_string)
+	for r in range(len(spaces)):
+		for c in range(len(spaces[r])):
 			var pieces: Array[GamePiece] = []
-
-			if default_types[r][c] == SpaceType.KASI:
-				pieces = [Kili.new(new_space)]
-				state.kili_amounts.append(state.kili_amount - 1)
-				state.kasi_spaces.append(new_space)
-
-			new_space.pieces = pieces
-			new_spaces[r].append(new_space)
+			for piece: GamePiece in spaces[r][c].pieces:
+				pieces.append(piece.get_copy(new_board.spaces[r][c]))
+			new_board.spaces[r][c].pieces = pieces
 	
-	state.spaces = new_spaces
+	new_board.pieces_selected = pieces_selected.duplicate()
+	new_board.kili_amounts = kili_amounts.duplicate()
 	
-	for i in range(len(state.pipi_positions)):
-		for position in state.pipi_positions[i]:
-			var p: Array[GamePiece] = [Pipi.new(state.spaces[position.y][position.x], i + 1)]
-			state.spaces[position.y][position.x].pieces = p
-
-	var p1: Array[GamePiece] = [Akesi.new(null, LOJE), Akesi.new(null, LOJE), Soweli.new(null, LOJE), Waso.new(null, LOJE), Waso.new(null, LOJE)]
-	state.unused_pieces.append(p1)
-
-	var p2: Array[GamePiece] = [Akesi.new(null, PIMEJA), Akesi.new(null, PIMEJA), Soweli.new(null, PIMEJA), Waso.new(null, PIMEJA), Waso.new(null, PIMEJA)]
-	state.unused_pieces.append(p2)
-
-	return state
-
-static func get_starting_board_state_3() -> BoardState:
-	var state : BoardState = BoardState.new(0, 0)
-	state.pipi_positions = [[Vector2(0, 6), Vector2(1, 7), Vector2(2, 8)], [Vector2(6, 0), Vector2(7, 1), Vector2(8, 2)], [Vector2(6, 8), Vector2(7, 7), Vector2(8, 6)]]
-	state.starting_positions = [[Vector2(0, 7), Vector2(0, 8), Vector2(1, 8)], [Vector2(7, 8), Vector2(8, 8), Vector2(8, 7)], [Vector2(8, 1), Vector2(8, 0), Vector2(7, 0)]]
-	var new_spaces : Array[Array] = []
-	var default_types : Array[Array] = [[SpaceType.TOMO_WALO, SpaceType.WALO, SpaceType.WALO, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA],
-	[SpaceType.WALO, SpaceType.WALO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.PIMEJA, SpaceType.PIMEJA],
-	[SpaceType.WALO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.PIMEJA],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.KASI, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.KASI, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.LOJE, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.JELO],
-	[SpaceType.LOJE, SpaceType.LOJE, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.JELO, SpaceType.JELO],
-	[SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.JELO, SpaceType.JELO, SpaceType.TOMO_JELO]]
-
-	for r in range(0, 9):
-		new_spaces.append([])
-
-		for c in range(0, 9):
-			var new_space = BoardSpace.new(state, column_names[c] + str(9 - r), default_types[r][c], (r * 9 + c) % 2 == 0, r, c)
-			var pieces: Array[GamePiece] = []
-
-			if default_types[r][c] == SpaceType.KASI:
-				pieces = [Kili.new(new_space)]
-				state.kili_amounts.append(state.kili_amount - 1)
-				state.kasi_spaces.append(new_space)
-
-			new_space.pieces = pieces
-			new_spaces[r].append(new_space)
-
-	state.spaces = new_spaces
-	for i in range(len(state.pipi_positions)):
-		for position in state.pipi_positions[i]:
-			var p: Array[GamePiece] = [Pipi.new(state.spaces[position.y][position.x], i + 1)]
-			state.spaces[position.y][position.x].pieces = p
-	
-	var p1: Array[GamePiece] = [Akesi.new(null, LOJE), Akesi.new(null, LOJE), Soweli.new(null, LOJE), Waso.new(null, LOJE), Waso.new(null, LOJE)]
-	state.unused_pieces.append(p1)
-	
-	var p2: Array[GamePiece] = [Akesi.new(null, JELO), Akesi.new(null, JELO), Soweli.new(null, JELO), Waso.new(null, JELO), Waso.new(null, JELO)]
-	state.unused_pieces.append(p2)
-
-	var p3: Array[GamePiece] = [Akesi.new(null, PIMEJA), Akesi.new(null, PIMEJA), Soweli.new(null, PIMEJA), Waso.new(null, PIMEJA), Waso.new(null, PIMEJA)]
-	state.unused_pieces.append(p3)
-
-	return state
-
-static func get_starting_board_state_4() -> BoardState:
-	var state : BoardState = BoardState.new(0, 0)
-	state.pipi_positions = [[Vector2(0, 6), Vector2(1, 7), Vector2(2, 8)], [Vector2(6, 0), Vector2(7, 1), Vector2(8, 2)], [Vector2(6, 8), Vector2(7, 7), Vector2(8, 6)], [Vector2(2, 0), Vector2(1, 1), Vector2(0, 2)]]
-	state.starting_positions = [[Vector2(0, 7), Vector2(0, 8), Vector2(1, 8)], [Vector2(7, 8), Vector2(8, 8), Vector2(8, 7)], [Vector2(8, 1), Vector2(8, 0), Vector2(7, 0)], [Vector2(1, 0), Vector2(0, 0), Vector2(0, 1)]]
-	var new_spaces : Array[Array] = []
-	var default_types : Array[Array] = [[SpaceType.TOMO_WALO, SpaceType.WALO, SpaceType.WALO, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.PIMEJA, SpaceType.PIMEJA, SpaceType.TOMO_PIMEJA],
-	[SpaceType.WALO, SpaceType.WALO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.PIMEJA, SpaceType.PIMEJA],
-	[SpaceType.WALO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.PIMEJA],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.KASI, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.KASI, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.TELO],
-	[SpaceType.LOJE, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.KASI, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.JELO],
-	[SpaceType.LOJE, SpaceType.LOJE, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.OPEN, SpaceType.JELO, SpaceType.JELO],
-	[SpaceType.TOMO_LOJE, SpaceType.LOJE, SpaceType.LOJE, SpaceType.TELO, SpaceType.TELO, SpaceType.TELO, SpaceType.JELO, SpaceType.JELO, SpaceType.TOMO_JELO]]
-
-	for r in range(0, 9):
-		new_spaces.append([])
-
-		for c in range(0, 9):
-			var new_space = BoardSpace.new(state, column_names[c] + str(9 - r), default_types[r][c], (r * 9 + c) % 2 == 0, r, c)
-			var pieces: Array[GamePiece] = []
-
-			if default_types[r][c] == SpaceType.KASI:
-				pieces = [Kili.new(new_space)]
-				state.kili_amounts.append(state.kili_amount - 1)
-				state.kasi_spaces.append(new_space)
-
-			new_space.pieces = pieces
-			new_spaces[r].append(new_space)
-
-	state.spaces = new_spaces
-	for i in range(len(state.pipi_positions)):
-		for position in state.pipi_positions[i]:
-			var p: Array[GamePiece] = [Pipi.new(state.spaces[position.y][position.x], i + 1)]
-			state.spaces[position.y][position.x].pieces = p
-	
-	var p1: Array[GamePiece] = [Akesi.new(null, LOJE), Akesi.new(null, LOJE), Soweli.new(null, LOJE), Waso.new(null, LOJE), Waso.new(null, LOJE)]
-	state.unused_pieces.append(p1)
-	
-	var p2: Array[GamePiece] = [Akesi.new(null, JELO), Akesi.new(null, JELO), Soweli.new(null, JELO), Waso.new(null, JELO), Waso.new(null, JELO)]
-	state.unused_pieces.append(p2)
-
-	var p3: Array[GamePiece] = [Akesi.new(null, PIMEJA), Akesi.new(null, PIMEJA), Soweli.new(null, PIMEJA), Waso.new(null, PIMEJA), Waso.new(null, PIMEJA)]
-	state.unused_pieces.append(p3)
-
-	var p4: Array[GamePiece] = [Akesi.new(null, WALO), Akesi.new(null, WALO), Soweli.new(null, WALO), Waso.new(null, WALO), Waso.new(null, WALO)]
-	state.unused_pieces.append(p4)
-
-	return state
-
-static func from(board_state: BoardState) -> BoardState: # TODO: There has to be a better way of doing this with deep copies this feel so inefficient
-	var new_board = BoardState.new(board_state.current_player_num, board_state.turn)
-	new_board.starting_positions = board_state.starting_positions
-	new_board.player_order = board_state.player_order
-	var a : Array[Array] = []
-	new_board.spaces = a
-
-	for r in range(len(board_state.spaces)):
-		new_board.spaces.append([])
-		for c in range(len(board_state.spaces[r])):
-			new_board.spaces[r].append(board_state.spaces[r][c].get_copy(new_board))
-
-	for k in range(len(board_state.kili_amounts)):
-		new_board.kili_amounts.append(board_state.kili_amounts[k])
-		var k_space = board_state.kasi_spaces[k]
-		new_board.kasi_spaces.append(new_board.spaces[k_space.row][k_space.column])
-
-	new_board.kili_amount = board_state.kili_amount
-
-	for i in range(len(board_state.unused_pieces)):
+	for i in range(len(unused_pieces)):
 		var n: Array[GamePiece] = []
 		new_board.unused_pieces.append(n)
 
-		for j in range(len(board_state.unused_pieces[i])):
-			new_board.unused_pieces[i].append(board_state.unused_pieces[i][j].get_copy(null))
+		for j in range(len(unused_pieces[i])):
+			new_board.unused_pieces[i].append(unused_pieces[i][j].get_copy(null))
 	
-	new_board.pieces_selected = board_state.pieces_selected.duplicate()
+	new_board.complete = complete
+	new_board.turn = turn
+	new_board.passes = passes
+	new_board.current_player_num = current_player_num
 	
-	board_state.next_state = new_board
-	new_board.previous_state = board_state
-	new_board.complete = board_state.complete
+	next_state = new_board
+	new_board.previous_state = self
+	
 	return new_board
+
+func apply_lines(lines: Array[String]) -> BoardState:
+	while len(lines) > 0:
+		var move = Action.from_line(lines.pop_front())
+		if move != null:
+			next_state = move.execute(self).progress_turn().check_complete()
+			if len(lines) > 1 and not next_state.complete:
+				return next_state.apply_lines(lines)
+			return next_state
+	return self
 #0. AASWW KKSUU
 #0. AASWW ASAWW 1. w6k4 p0k2
 func apply_notation(notation: String) -> BoardState:
@@ -253,18 +173,13 @@ func apply_notation(notation: String) -> BoardState:
 		slice = notation.get_slice(" ", 0) #If it is, change kili amounts and move on
 		notation = notation.erase(0, len(slice)+1)
 	if slice == "Pass":
-		move = PassAction.new()
+		move = PassAction.new(get_current_player())
 	elif slice == slice.to_upper(): #Check if the section is all uppercase (Meaning it is a piece selection)
 		if not has_player_selected_pieces(get_current_player()):
-			var pieces : Array[GamePiece] = []
-			for chr in slice:
-				pieces.append(pop_unused_piece_from_notation(get_current_player(), chr))#TODO: Checking if this is null, throwing error
-			move = PieceSelectionAction.new(pieces, get_current_player())
+			move = PieceSelectionAction.new(get_current_player(), slice)
 	elif slice.contains("="):#Check if the section contains = (Meaning it is a promotion)
-		var kili: GamePiece = get_space_from_notation(slice.substr(0,2)).pieces[0]
-		if kili is Kili:
-			move = PromotionAction.new(kili)
-			move.new_piece = pop_unused_piece_from_notation(get_current_player(), slice[-1])#TODO: Checking if this is null, throwing error
+		var space = get_space_from_notation(slice.substr(0,2))
+		move = PromotionAction.new(get_current_player(), space.row, space.column, slice[-1])
 		#TODO: Throw error
 	else:
 		var old_pos: BoardSpace = get_space_from_notation(slice.substr(0, 2))#TODO: change this to be piece selection instead of position i guess
@@ -277,7 +192,7 @@ func apply_notation(notation: String) -> BoardState:
 		var carry: bool = false
 		if slice[-1] == "+":
 			carry = true
-		move = MovementAction.new(old_pos, new_pos, carry, capture)#TODO: just checking for error and stuff
+		move = MovementAction.new(get_current_player(), old_pos.row, old_pos.column, new_pos.row, new_pos.column, carry, capture)#TODO: just checking for error and stuff
 	if move != null:
 		next_state = move.execute(self).progress_turn().check_complete()
 		if len(notation) > 0 and not next_state.complete:
@@ -313,3 +228,20 @@ func has_player_selected_pieces(player: int) -> bool:
 
 func set_has_player_selected_pieces(player: int, selected: bool) -> void:
 	pieces_selected[player_order.find(player)] = selected
+
+func get_starting_positions(player: int) -> Array[BoardSpace]:
+	var positions: Array[BoardSpace] = []
+	var split_starting_pieces = starting_pieces_string.split(" ")
+	for r in range(len(spaces)):
+		for c in range(len(spaces[r])):
+			if split_starting_pieces[r][c] == "#" and spaces[r][c].type.owner_signature == player:
+				positions.append(spaces[r][c])
+	return positions
+func get_starting_position_types(player: int) -> Array[SpaceType]:
+	var types: Array[SpaceType] = []
+	var split_starting_pieces = starting_pieces_string.split(" ")
+	for r in range(len(spaces)):
+		for c in range(len(spaces[r])):
+			if split_starting_pieces[r][c] == "#" and spaces[r][c].type.owner_signature == player:
+				types.append(spaces[r][c].type)
+	return types

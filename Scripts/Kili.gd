@@ -1,6 +1,6 @@
 class_name Kili extends GamePiece
 
-func _init(_position: BoardSpace):
+func _init(_position: BoardSpace, _owner: int = 0):
 	name = "kili"
 	symbol = "I"
 	position = _position
@@ -21,7 +21,7 @@ func get_description():
 
 func get_potential_moves(current_turn: int, _carry: bool) -> Array[Action]:
 	if position.type.is_home and position.type.owner_signature == current_turn:
-		return [PromotionAction.new(self)]
+		return [PromotionAction.new(current_turn, position.row, position.column)]
 
 	return []
 

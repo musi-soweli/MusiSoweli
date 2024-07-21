@@ -291,33 +291,31 @@ offset_right = 285.0
 offset_bottom = 31.0
 text = "apply notation"
 
+[node name="LineButton" type="Button" parent="InfoPanel/InfoDisplay/DevPanel"]
+layout_mode = 1
+offset_top = 36.5
+offset_right = 125.0
+offset_bottom = 67.5
+text = "apply lines"
+
+[node name="ExportLineButton" type="Button" parent="InfoPanel/InfoDisplay/DevPanel"]
+layout_mode = 1
+offset_left = 130.0
+offset_top = 36.5
+offset_right = 255.0
+offset_bottom = 67.5
+text = "export last move"
+
 [node name="LineEdit" type="LineEdit" parent="InfoPanel/InfoDisplay/DevPanel"]
 layout_mode = 1
 offset_right = 154.0
 offset_bottom = 31.0
 
-[node name="ExportGameButton" type="Button" parent="InfoPanel/InfoDisplay/DevPanel"]
-layout_mode = 1
-offset_left = 1.0
-offset_top = 36.0
-offset_right = 126.0
-offset_bottom = 67.0
-text = "export game"
-
-[node name="ExportMoveButton" type="Button" parent="InfoPanel/InfoDisplay/DevPanel"]
-layout_mode = 1
-offset_left = 131.0
-offset_top = 36.0
-offset_right = 269.0
-offset_bottom = 67.0
-text = "export last move"
-
 [node name="ToggleLocalButton" type="Button" parent="InfoPanel/InfoDisplay/DevPanel"]
 layout_mode = 1
-offset_left = 1.0
-offset_top = 72.0
-offset_right = 126.0
-offset_bottom = 103.0
+offset_top = 72.5
+offset_right = 154.0
+offset_bottom = 103.5
 text = "make not local"
 
 [node name="PieceSelectionDisplay" type="Panel" parent="."]
@@ -400,8 +398,9 @@ text = "Select Piece"
 [connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/PassButton" to="." method="on_pass_button_pressed"]
 [connection signal="pressed" from="InfoPanel/InfoDisplay/GameInfo/ResignButton" to="." method="on_resign_button_pressed"]
 [connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/NotationButton" to="." method="on_notation_button_pressed"]
-[connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/ExportGameButton" to="." method="on_export_game_button_pressed"]
-[connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/ExportMoveButton" to="." method="on_export_move_button_pressed"]
+[connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/LineButton" to="." method="on_line_button_pressed"]
+[connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/ExportLineButton" to="." method="on_export_line_button_pressed"]
+[connection signal="tree_exited" from="InfoPanel/InfoDisplay/DevPanel/ExportLineButton" to="." method="_on_export_line_button_pressed"]
 [connection signal="pressed" from="InfoPanel/InfoDisplay/DevPanel/ToggleLocalButton" to="." method="on_toggle_local_button_pressed"]
 [connection signal="cancelled" from="PieceSelectionDisplay" to="." method="on_piece_selection_display_cancelled"]
 [connection signal="space_hovered" from="PieceSelectionDisplay" to="InfoPanel/InfoDisplay" method="display_space"]

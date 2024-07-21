@@ -103,7 +103,7 @@ func show_potential_moves(moves: Array[Action]):
 
 	for move in moves:
 		if move is MovementAction:
-			get_child_from_indexes(move.new_position.row, move.new_position.column).set_move(move)
+			get_child_from_indexes(move.new_row, move.new_column).set_move(move)
 		elif move is PromotionAction:
 			emit_signal("promotion", move)
 			hide_potential_moves()

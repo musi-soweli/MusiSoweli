@@ -8,3 +8,6 @@ func on_create_button_pressed():
 	add_child(game)
 	$Create.hide()
 	$Main.hide()
+
+func on_join_button_pressed():
+	pass # Replace with function body.
